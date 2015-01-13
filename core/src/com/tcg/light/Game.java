@@ -1,7 +1,9 @@
 package com.tcg.light;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -39,6 +41,7 @@ public class Game extends ApplicationAdapter {
 			file.close();
 			fileIn.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 			s = new Save();
 			s.setHighScore(0);
 			s.setLevel(1);
@@ -72,5 +75,16 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		gsm.dispose();
+		s.setHighScore(Game.HIGHSCORE);
+		s.setLevel(Game.LEVEL);
+		try {
+		 	FileOutputStream fileOut = new FileOutputStream("save.dat");
+		 	ObjectOutputStream out = new ObjectOutputStream(fileOut);
+		 	out.writeObject(s);
+		 	out.close();
+		 	fileOut.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
