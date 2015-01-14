@@ -12,7 +12,7 @@ import com.tcg.light.MyCamera;
 import com.tcg.light.entities.World;
 import com.tcg.light.managers.GameStateManager;
 
-public class PlayState extends GameState {
+public class SplashState extends GameState {
 	
 	private World w;
 
@@ -23,7 +23,7 @@ public class PlayState extends GameState {
 	
 	private Texture stary;
 
-	public PlayState(GameStateManager gsm) {
+	public SplashState(GameStateManager gsm) {
 		super(gsm);
 	}
 

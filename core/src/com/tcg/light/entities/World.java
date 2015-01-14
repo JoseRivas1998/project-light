@@ -41,7 +41,6 @@ public class World {
 			TiledMapTileLayer ground;
 			MapLayer object;
 			
-			
 			ground = (TiledMapTileLayer) tileMap.getLayers().get("ground");
 			
 			createLayer(ground, bounds);

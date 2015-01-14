@@ -13,6 +13,7 @@ import com.tcg.light.managers.*;
 
 public class Game extends ApplicationAdapter {
 	
+	public static final String TITLE = "Project Light";
 	
 	public static Vector2 SIZE, CENTER;
 	
@@ -20,7 +21,15 @@ public class Game extends ApplicationAdapter {
 	
 	public static int SCORE, HIGHSCORE, LEVEL;
 	
+	public static float VOLUME;
+	
 	private Save s;
+	
+	public static int fps;
+	private int frames;
+	private float ftime;
+	
+	public static Content res;
 	
 	@Override
 	public void create () {
@@ -45,10 +54,20 @@ public class Game extends ApplicationAdapter {
 			s = new Save();
 			s.setHighScore(0);
 			s.setLevel(1);
+			s.setVolume(1);
 		}
 		
 		Game.HIGHSCORE = s.getHighScore();
 		Game.LEVEL = s.getLevel();
+		Game.VOLUME = s.getVolume();
+		
+		ftime = 0;
+		frames = 0;
+		fps = 0;
+		
+		res = new Content();
+		
+		res.loadSound("sound", "Thunder7.ogg", "crack");
 		
 		gsm = new GameStateManager();
 	}
@@ -60,9 +79,21 @@ public class Game extends ApplicationAdapter {
 		
 		float dt = Gdx.graphics.getDeltaTime();
 		
+		ftime += dt;
+		frames++;
+		if(ftime >= 1) {
+			fps = frames;
+			frames = 0;
+			ftime = 0;
+		}
+		Gdx.graphics.setTitle(Game.TITLE + " | " + Game.fps + "fps");
+		
+		
 		gsm.handleInput();
 		gsm.update(dt);
 		gsm.draw();
+		
+		res.setVolumeAll(Game.VOLUME);
 	}
  
 	@Override
