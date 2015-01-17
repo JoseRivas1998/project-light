@@ -34,6 +34,10 @@ public class World {
 		}
 		
 		private void createTiles() {
+			
+			bounds.clear();
+			objects.clear();
+			
 			tileMap = new TmxMapLoader().load("maps/test.tmx");
 			tmr = new OrthogonalTiledMapRenderer(tileMap);
 			tileSize = tileMap.getProperties().get("tilewidth", Integer.class);

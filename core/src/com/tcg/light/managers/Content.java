@@ -8,17 +8,20 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.tcg.light.managers.midi.Midi;
 
 public class Content {
 	
 	private HashMap<String, Music> music;
 	private HashMap<String, Sound> sound;
 	private HashMap<String, BitmapFont> font;
+	private HashMap<String, Midi> midi;
 	
 	public Content() {
 		music = new HashMap<String, Music>();
 		sound = new HashMap<String, Sound>();
 		font = new HashMap<String, BitmapFont>();
+		midi = new HashMap<String, Midi>();
 	}
 	
 	/*
@@ -40,6 +43,25 @@ public class Content {
 			Music music = (Music) o;
 			music.setVolume(vol);
 		}
+		for(Object o : midi.values()) {
+			Midi m = (Midi) o;
+			m.setVolume(vol);
+		}
+	}
+	
+	/*
+	 * Midi
+	 */
+	
+	public void loadMidi(String folder, String path, String key, boolean looping) {
+		Midi m = new Midi();
+		m.open(folder + "/" + path);
+		m.setLooping(looping);
+		midi.put(key, m);
+	}
+	
+	public Midi getMidi(String key) {
+		return midi.get(key);
 	}
 	
 	/*
@@ -113,8 +135,16 @@ public class Content {
 		}
 	}
 	
+	public void stopMidi() {
+		for(Object o : midi.values()) {
+			Midi m = (Midi) o;
+			m.stop();
+		}
+	}
+	
 	public void stopAllSound() {
 		stopSound();
 		stopMusic();
+		stopMidi();
 	}
 }

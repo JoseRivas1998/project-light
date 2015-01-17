@@ -8,14 +8,6 @@ public class Save implements Serializable {
 	
 	private int highScore;
 	private int level;
-	private float volume;
-	
-	public float getVolume() {
-		return volume;
-	}
-	public void setVolume(float volume) {
-		this.volume = volume;
-	}
 	public int getHighScore() {
 		return highScore;
 	}

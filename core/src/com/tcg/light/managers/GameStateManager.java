@@ -17,6 +17,7 @@ public class GameStateManager {
 	
 	private GameState gamestate;
 
+	public final int SPLASH = 0;
 	public final int TITLE = 1;
 	public final int PLAY = 2;
 	
@@ -27,7 +28,7 @@ public class GameStateManager {
 	public GameStateManager() {
 		sb = new SpriteBatch();
 		sr = new ShapeRenderer();
-		setState(PLAY);
+		setState(TITLE);
 		tTimer = MathUtils.random(15);
 		tTime = 0;
 		playing = false;
@@ -36,7 +37,12 @@ public class GameStateManager {
 	}
 	
 	public void setState(int state) {
+		Game.res.stopMidi();
+		Game.res.stopMusic();
 		if(gamestate != null) gamestate.dispose();
+		if(state == SPLASH) {
+			gamestate = new SplashState(this);
+		}
 		if(state == TITLE) {
 			gamestate = new TitleState(this);
 		}
@@ -59,15 +65,15 @@ public class GameStateManager {
 			playing = false;
 		}
 		if(playing && !pPlaying && isPlay()) {
-			Game.res.getSound("crack").play();
+			Game.res.getSound("crack").play(Game.VOLUME);
 		}
 		pPlaying = playing;
 		
 		gamestate.update(dt);
 	}
 	
-	public void draw() {
-		gamestate.draw(sb, sr);
+	public void draw(float dt) {
+		gamestate.draw(sb, sr, dt);
 		
 		sr.begin(ShapeType.Filled);
 		sr.setColor(1, 1, 1, .1f);
