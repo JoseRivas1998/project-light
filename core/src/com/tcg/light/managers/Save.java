@@ -8,6 +8,12 @@ public class Save implements Serializable {
 	
 	private int highScore;
 	private int level;
+	
+	private int maxHealth;
+	private int maxAmmo;
+	
+	private int lives;
+	
 	public int getHighScore() {
 		return highScore;
 	}
@@ -19,6 +25,24 @@ public class Save implements Serializable {
 	}
 	public void setLevel(int level) {
 		this.level = level;
+	}
+	public int getMaxHealth() {
+		return maxHealth;
+	}
+	public void setMaxHealth(int maxHealth) {
+		this.maxHealth = maxHealth;
+	}
+	public int getMaxAmmo() {
+		return maxAmmo;
+	}
+	public void setMaxAmmo(int maxAmmo) {
+		this.maxAmmo = maxAmmo;
+	}
+	public int getLives() {
+		return lives;
+	}
+	public void setLives(int lives) {
+		this.lives = lives;
 	}
 	
 }

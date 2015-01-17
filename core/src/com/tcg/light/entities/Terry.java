@@ -24,7 +24,7 @@ public class Terry extends Entity {
 	
 	public boolean first;
 	
-	private int health, maxHealth, ammo, maxAmmo;
+	private int health, maxHealth, ammo, maxAmmo, lives;
 	
 	public Terry() {
 		super();
@@ -37,10 +37,12 @@ public class Terry extends Entity {
 		dir = Constants.RIGHT;
 		initializeAnimations();
 		first = true;
-		maxHealth = 100;
-		maxAmmo = 60;
+		maxHealth = Game.MAXHEALTH;
+		maxAmmo = Game.MAXAMMO;
 		health = maxHealth;
 		ammo = maxAmmo;
+		lives = Game.LIVES;
+		System.out.println(lives);
 	}
 	
 	private void initializeAnimations() {
@@ -116,6 +118,7 @@ public class Terry extends Entity {
 		} else {
 			if(MyInput.keyPressed(MyInput.SHOOT)) {
 				Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+				health -= 5;
 			}
 		}
 	}
@@ -141,9 +144,11 @@ public class Terry extends Entity {
 			bounds.y = w.getHeight() - bounds.height;
 		}
 		
-		if(getTop() < -500) {
+		if(getTop() < -500 || health <= 0) {
 			bounds.x = 32;
 			bounds.y = 32;
+			health = maxHealth;
+			lives--;
 		}
 		
 		resetBounds();
@@ -153,7 +158,10 @@ public class Terry extends Entity {
 		if(touchingG && !pTouchingG) {
 			Game.res.getSound("land").play(Game.VOLUME * .8f);
 		}
-		
+
+		Game.MAXAMMO = maxAmmo;
+		Game.MAXHEALTH = maxHealth;
+		Game.LIVES = lives;
 		
 		pTouchingG = touchingG;
 	}
@@ -285,6 +293,14 @@ public class Terry extends Entity {
 
 	public void setMaxAmmo(int maxAmmo) {
 		this.maxAmmo = maxAmmo;
+	}
+
+	public int getLives() {
+		return lives;
+	}
+
+	public void setLives(int lives) {
+		this.lives = lives;
 	}
 
 }

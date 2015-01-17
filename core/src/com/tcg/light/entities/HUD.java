@@ -1,6 +1,7 @@
 package com.tcg.light.entities;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -12,28 +13,76 @@ public class HUD {
 
 	private MyCamera cam;
 	
-	private float hx, hy, hw, hh, hw1, ax, ay, aw, ah, aw1, hsx, hsy, hsw, hsh, asx, asy, asw, ash;
-	private String health, ammo;
+	private float healthX, healthY, heathW, helathH, healthBarW, healthStringX, healthStringY, healthStringW;
+	
+	private float ammoX, ammoY, ammoW, ammoH, ammoBarW, ammoStringX, ammoStringY, ammoStringW;
+	
+	private float scoreX, scoreY, scoreW, highScoreX, highScoreY, highScoreW;
+	
+	private float faceX, faceY, faceW, faceH;
+	
+	private float livesX, livesY, livesH;
+	
+	private Texture face;
+	
+	private String health, ammo, score, highScore, lives;
 	
 	public HUD(Terry t) {
 		cam = new MyCamera(Game.SIZE, true);
+		face = new Texture("hud/My Face.png");
 		setValues(t);
 	}
 	
 	private void setValues(Terry t) {
+		float health = (float) t.getHealth();
+		float mHealth = (float) t.getMaxHealth();
+		float hRatio = health / mHealth;
+		this.health = t.getHealth() + "/" + t.getMaxHealth();
+		
 		float ammo = (float) t.getAmmo();
 		float mAmmo = (float) t.getMaxAmmo();
-		float ratio = ammo / mAmmo;
+		float aRatio = ammo / mAmmo;
 		this.ammo = t.getAmmo() + "/" + t.getMaxAmmo(); 
-		aw = 100;
-		ah = 25;
-		ax = cam.getRight() - aw - 50;
-		ay = cam.getBottom() + 50;
-		aw1 = ratio * aw;
-		asw = Game.res.getWidth("main", this.ammo);
-		ash = Game.res.getHeight("main", this.ammo);
-		asx = (ax + (aw * .5f)) - (asw * .5f);
-		asy = ay - 10;
+		
+		heathW = 100;
+		helathH = 25;
+		healthX = cam.getLeft() + 10;
+		healthY = cam.getTop() - helathH - 25;
+		healthBarW = hRatio * heathW;
+		healthStringW = Game.res.getWidth("main", this.health);
+		healthStringX = (healthX + (heathW * .5f)) - (healthStringW * .5f);
+		healthStringY = healthY - 10;
+		
+		ammoW = 100;
+		ammoH = 25;
+		ammoX = cam.getRight() - ammoW - 10;
+		ammoY = cam.getBottom() + 50;
+		ammoBarW = aRatio * ammoW;
+		ammoStringW = Game.res.getWidth("main", this.ammo);
+		ammoStringX = (ammoX + (ammoW * .5f)) - (ammoStringW * .5f);
+		ammoStringY = ammoY - 10;
+		
+		score = "Score: " + Game.getScore(Game.SCORE);
+		highScore = "High Score: " + Game.getScore(Game.HIGHSCORE);
+		scoreW = Game.res.getWidth("main", score);
+		scoreY = cam.getTop() - 25;
+		scoreX = (cam.getRight() - 10) - scoreW;
+		
+		highScoreW = Game.res.getWidth("main", highScore);
+		highScoreY = scoreY - 25;
+		highScoreX = (cam.getRight() - 10) - highScoreW;
+		
+		faceW = face.getWidth() * .5f;
+		faceH = face.getHeight() * .5f;
+		faceX = cam.getLeft() + 10;
+		faceY = cam.getBottom() + 10;
+		
+		lives = t.getLives() + "";
+		livesH = Game.res.getHeight("main", lives);
+		livesX = faceX + faceW + 10;
+		livesY = faceY + livesH;
+		
+		
 	}
 	
 	public void render(SpriteBatch sb, ShapeRenderer sr, boolean paused, Terry t) {
@@ -43,18 +92,26 @@ public class HUD {
 		sr.begin(ShapeType.Filled);
 		sr.setColor(Color.YELLOW);
 		sr.setProjectionMatrix(cam.combined);
-		sr.rect(ax, ay, aw1, ah);
+		sr.rect(ammoX, ammoY, ammoBarW, ammoH);
+		sr.setColor(Color.RED);
+		sr.rect(healthX, healthY, healthBarW, helathH);
 		sr.end();
 		
 		sr.begin(ShapeType.Line);
 		sr.setProjectionMatrix(cam.combined);
 		sr.setColor(Color.WHITE);
-		sr.rect(ax, ay, aw, ah);
+		sr.rect(ammoX, ammoY, ammoW, ammoH);
+		sr.rect(healthX, healthY, heathW, helathH);
 		sr.end();
 		
 		sb.begin();
 		sb.setProjectionMatrix(cam.combined);
-		Game.res.getFont("main").draw(sb, ammo, asx, asy);
+		Game.res.getFont("main").draw(sb, ammo, ammoStringX, ammoStringY);
+		Game.res.getFont("main").draw(sb, health, healthStringX, healthStringY);
+		Game.res.getFont("main").draw(sb, score, scoreX, scoreY);
+		Game.res.getFont("main").draw(sb, highScore, highScoreX, highScoreY);
+		Game.res.getFont("main").draw(sb, lives, livesX, livesY);
+		sb.draw(face, faceX, faceY, faceW, faceH);
 		if(paused) {
 			String p1, p2, p3;
 			p1 = "Game Paused";
@@ -80,6 +137,10 @@ public class HUD {
 	
 	public void resize(Vector2 size) {
 		cam.resize(size, true);
+	}
+	
+	public void dispose() {
+		face.dispose();
 	}
 
 }

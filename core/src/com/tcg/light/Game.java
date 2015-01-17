@@ -23,7 +23,7 @@ public class Game extends ApplicationAdapter {
 	
 	public GameStateManager gsm;
 	
-	public static int SCORE, HIGHSCORE, LEVEL;
+	public static int SCORE, HIGHSCORE, LEVEL, MAXHEALTH, MAXAMMO, LIVES;
 	
 	public static float VOLUME;
 	
@@ -67,10 +67,16 @@ public class Game extends ApplicationAdapter {
 			s = new Save();
 			s.setHighScore(0);
 			s.setLevel(1);
+			s.setMaxHealth(100);
+			s.setMaxAmmo(60);
+			s.setLives(5);
 		}
 		
 		Game.HIGHSCORE = s.getHighScore();
 		Game.LEVEL = s.getLevel();
+		Game.MAXAMMO = s.getMaxAmmo();
+		Game.MAXHEALTH = s.getMaxHealth();
+		Game.LIVES = s.getLives();
 		
 		ftime = 0;
 		frames = 0;
@@ -146,11 +152,30 @@ public class Game extends ApplicationAdapter {
 		gsm.resize(Game.SIZE);
 	}
 
+	public static String getScore(int score) {
+		if(score < 10) {
+			return "00000" + score;
+		} else if(score < 100) {
+			return "0000" + score;
+		} else if(score < 1000) {
+			return "000" + score;
+		} else if(score < 10000) {
+			return "00" + score;
+		} else if(score < 100000) {
+			return "0" + score;
+		} else {
+			return "" + score;
+		}
+	}
+	
 	@Override
 	public void dispose() {
 		gsm.dispose();
 		s.setHighScore(Game.HIGHSCORE);
 		s.setLevel(Game.LEVEL);
+		s.setMaxAmmo(Game.MAXAMMO);
+		s.setMaxHealth(Game.MAXHEALTH);
+		s.setLives(Game.LIVES);
 		try {
 		 	FileOutputStream fileOut = new FileOutputStream("save.dat");
 		 	ObjectOutputStream out = new ObjectOutputStream(fileOut);

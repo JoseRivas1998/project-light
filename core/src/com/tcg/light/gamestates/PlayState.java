@@ -142,6 +142,8 @@ public class PlayState extends GameState {
 	public void dispose() {
 		bg.dispose();
 		stary.dispose();
+		t.dispose();
+		hud.dispose();
 	}
 
 }
