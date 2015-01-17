@@ -108,4 +108,12 @@ public abstract class Entity {
 		this.vel = vel;
 	}
 	
+	public boolean collidingWith(Entity e) {
+		return bounds.overlaps(e.getBounds());
+	}
+	
+	public boolean collidingWith(Rectangle r) {
+		return bounds.overlaps(r);
+	}
+	
 }

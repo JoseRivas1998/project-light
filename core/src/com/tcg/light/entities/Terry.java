@@ -6,8 +6,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
 import com.tcg.light.Game;
+import com.tcg.light.MyCamera;
+import com.tcg.light.entities.buffs.*;
 import com.tcg.light.managers.MyInput;
 
 public class Terry extends Entity {
@@ -26,6 +29,8 @@ public class Terry extends Entity {
 	
 	private int health, maxHealth, ammo, maxAmmo, lives;
 	
+	private Array<Bullet> bullets;
+	
 	public Terry() {
 		super();
 		setPosition(32, 32);
@@ -35,6 +40,7 @@ public class Terry extends Entity {
 		bs = new Rectangle();
 		pTouchingG = true;
 		dir = Constants.RIGHT;
+		bullets = new Array<Bullet>();
 		initializeAnimations();
 		first = true;
 		maxHealth = Game.MAXHEALTH;
@@ -42,7 +48,6 @@ public class Terry extends Entity {
 		health = maxHealth;
 		ammo = maxAmmo;
 		lives = Game.LIVES;
-		System.out.println(lives);
 	}
 	
 	private void initializeAnimations() {
@@ -106,24 +111,27 @@ public class Terry extends Entity {
 				Game.res.getSound("jump").play(Game.VOLUME * .8f);
 			}
 		}
-		if(ammo > 0) {
-			if(MyInput.keyDown(MyInput.SHOOT)) {
-				Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-				if(ammo > 0) {
-					ammo--;
-				} else {
-					ammo = 0;
+		if(!first) {
+			if(ammo > 0) {
+				if(MyInput.keyDown(MyInput.SHOOT)) {
+					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+					bullets.add(new Bullet(dir, getCenter()));
+					if(ammo > 0) {
+						ammo--;
+					} else {
+						ammo = 0;
+					}
 				}
-			}
-		} else {
-			if(MyInput.keyPressed(MyInput.SHOOT)) {
-				Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-				health -= 5;
+			} else {
+				if(MyInput.keyPressed(MyInput.SHOOT)) {
+					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+					bullets.add(new Bullet(dir, getCenter()));
+				}
 			}
 		}
 	}
 	
-	public void upadate(World w) {
+	public void upadate(World w, MyCamera cam) {
 		bounds.width = 32;
 		bounds.height = 32;
 		
@@ -155,6 +163,8 @@ public class Terry extends Entity {
 		collisions(w);
 		resetBounds();
 		
+		updateBullets(w, cam);
+		
 		if(touchingG && !pTouchingG) {
 			Game.res.getSound("land").play(Game.VOLUME * .8f);
 		}
@@ -165,7 +175,24 @@ public class Terry extends Entity {
 		
 		pTouchingG = touchingG;
 	}
+	
+	private void updateBullets(World w, MyCamera cam) {
+		for(Bullet b : bullets) {
+			b.update();
+			for(Rectangle r : w.getBounds()) {
+				if(b.collidingWith(r)) {
+					bullets.removeValue(b, true);
+					return;
+				}
+			}
+			if(!cam.inView(b.getCenter())) {
+				bullets.removeValue(b, true);
+			}
+		}
+	}
 
+	
+	
 	private void resetBounds() {
 		ls.width = 2;
 		rs.width = 2;
@@ -218,6 +245,34 @@ public class Terry extends Entity {
 				break;
 			}
 		}
+		for(Buff b : w.getBuffs()) {
+			if(collidingWith(b)) {
+				if(b instanceof SmallAmmo) {
+					if(ammo <= maxAmmo - 10) {
+						ammo += 10;
+					} else {
+						ammo = maxAmmo;
+					}
+				}
+				if(b instanceof SmallHealth) {
+					if(health <= maxHealth - 10) {
+						health += 10;
+					} else {
+						health = maxHealth;
+					}
+				}
+				if(b instanceof FullHealth) {
+					health = maxHealth;
+				}
+				if(b instanceof FullAmmo) {
+					ammo = maxAmmo;
+				}
+				if(b instanceof Stock) {
+					lives++;
+				}
+				w.getBuffs().removeValue(b, true);
+			}
+		}
 	}
 	
 	@Override
@@ -251,6 +306,12 @@ public class Terry extends Entity {
 		}
 		
 		sb.draw(currentFrame, getCenter().x - (currentFrame.getRegionWidth() * .5f), getCenter().y - (currentFrame.getRegionHeight() * .5f));
+	}
+	
+	public void drawLightning(ShapeRenderer sr, SpriteBatch sb, float dt) {
+		for(Bullet b : bullets) {
+			b.draw(sr, sb, dt);
+		}
 	}
 
 	@Override

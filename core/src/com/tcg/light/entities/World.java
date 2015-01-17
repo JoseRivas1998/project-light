@@ -1,23 +1,23 @@
 package com.tcg.light.entities;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.tcg.light.MyCamera;
+import com.tcg.light.entities.buffs.*;
 
 public class World {
 	 
 		private Array<Rectangle> bounds;
-		private Array<Vector2> objects;
+		private Array<Buff> buffs;
 		
 		private TiledMap tileMap;
 		private OrthogonalTiledMapRenderer tmr;
@@ -28,7 +28,7 @@ public class World {
 		
 		public World() {
 			bounds = new Array<Rectangle>();
-			objects = new Array<Vector2>();
+			buffs = new Array<Buff>();
 			
 			createTiles();
 		}
@@ -36,18 +36,22 @@ public class World {
 		private void createTiles() {
 			
 			bounds.clear();
-			objects.clear();
+			buffs.clear();
 			
 			tileMap = new TmxMapLoader().load("maps/test.tmx");
 			tmr = new OrthogonalTiledMapRenderer(tileMap);
 			tileSize = tileMap.getProperties().get("tilewidth", Integer.class);
 			
 			TiledMapTileLayer ground;
-			MapLayer object;
 			
 			ground = (TiledMapTileLayer) tileMap.getLayers().get("ground");
 			
 			createLayer(ground, bounds);
+			create1Up(buffs);
+			createSmallAmmo(buffs);
+			createSmallHealth(buffs);
+			createFullAmmo(buffs);
+			createFullHealth(buffs);
 			
 			width = ground.getWidth() * tileSize;
 			height = ground.getHeight() * tileSize;
@@ -73,21 +77,87 @@ public class World {
 			
 		}
 		
-		private void createObjectLayer(MapLayer layer, Array<Vector2> objects) {
+		private void create1Up(Array<Buff> buffs) {
+			MapLayer up1;
+			up1 = tileMap.getLayers().get("1up");
+			for(MapObject mo : up1.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				buffs.add(new Stock(v));
+			}
+		}
+		
+		private void createSmallAmmo(Array<Buff> buffs) {
+			MapLayer smallAmmo;
+			smallAmmo = tileMap.getLayers().get("smallammo");
+			for(MapObject mo : smallAmmo.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				buffs.add(new SmallAmmo(v));
+			}
+		}
+		
+		private void createSmallHealth(Array<Buff> buffs) {
+			MapLayer smallHealth;
+			smallHealth = tileMap.getLayers().get("smallhealth");
+			for(MapObject mo : smallHealth.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				buffs.add(new SmallHealth(v));
+			}
+		}
+		
+		private void createFullAmmo(Array<Buff> buffs) {
+			MapLayer fullAmmo;
+			fullAmmo = tileMap.getLayers().get("fullammo");
+			for(MapObject mo : fullAmmo.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				buffs.add(new FullAmmo(v));
+			}
+		}
+		
+		private void createFullHealth(Array<Buff> buffs) {
+			MapLayer fullHealth;
+			fullHealth = tileMap.getLayers().get("fullhealth");
+			for(MapObject mo : fullHealth.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				buffs.add(new FullHealth(v));
+			}
+		}
+		
+		@SuppressWarnings("unused")
+		private void createObjectLayer(MapLayer layer, Array<Buff> buffs) {
 			
 			for(MapObject mo : layer.getObjects()) {
 				Ellipse e = ((EllipseMapObject) mo).getEllipse();
-				float x = e.x;
-				float y = e.y;
-				
-				objects.add(new Vector2(x, y));
 			}
 			
 		}
 		
-		public void render(OrthographicCamera cam) {
+		public void render(MyCamera cam, SpriteBatch sb) {
 			tmr.setView(cam);
 			tmr.render();
+			
+			sb.begin();
+			sb.setProjectionMatrix(cam.combined);
+			for(Buff b : buffs) {
+				b.draw(null, sb, 0);
+			}
+			sb.end();
+		}
+		
+		public void dispose() {
+			for(Buff b: buffs) {
+				b.dispose();
+			}
+			buffs.clear();
 		}
 		
 		public Array<Rectangle> getBounds() {
@@ -96,14 +166,6 @@ public class World {
 	 
 		public void setBounds(Array<Rectangle> bounds) {
 			this.bounds = bounds;
-		}
-	 
-		public Array<Vector2> getObjects() {
-			return objects;
-		}
-	 
-		public void setObjects(Array<Vector2> objects) {
-			this.objects = objects;
 		}
 		
 		public float getWidth() {
@@ -136,5 +198,13 @@ public class World {
 
 		public void setTileHeight(float tileHeight) {
 			this.tileHeight = tileHeight;
+		}
+
+		public Array<Buff> getBuffs() {
+			return buffs;
+		}
+
+		public void setBuffs(Array<Buff> buffs) {
+			this.buffs = buffs;
 		}
 }

@@ -32,4 +32,29 @@
    eJzt2lFqw0AMBUC3UAy5/4FLoCaxoU6dXVvSdgb0H/S0jxAyTcAZbk8DkIVuAirTYUBGugmoTIcBGekmoDIdBmSkm4DKdBiQkW4CKtNhQEa6CahMhwEZ6ab6boNOFZU/+wjsn0zcIQu3QCbukaPcDJm4RxZugUzcI0e5GTJxjyzcApm4R45yM2TiHlm4Bfi/PjtOlJE67Kvj0E4eedw7pmceV3TWSN201TMLb6SdPPLo3VXPnXX1960ROuyMLLyV98kjj7O6aq+7evXYCN20dUUW3s3fySOPq7rqaI+1qNxh0Vl4M2vRe5fHQ4auas2jcjdtRe/c+1iL3rk8HjJ3VWseFTsset/ex1r0vuXxkL2rjuRRsZu2onftfaxF77piHj3/B7Wd6F2f1Vet3bX3O1r0PqInm+h9RM9Z3v0dOXof0ZNN9D6i55V5uva/xNH7iJ4988/0zPeV6H1Ez2/mSR4R8zH1/d7eKnof0fMNAzchbg==
   </data>
  </layer>
+ <objectgroup name="1up">
+  <object x="1349" y="2911">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="smallhealth">
+  <object x="368" y="2848.5">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="smallammo">
+  <object x="1010" y="2944">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="fullammo">
+  <object x="530" y="2369">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="fullhealth">
+  <object x="2030" y="2432">
+   <ellipse/>
+  </object>
+ </objectgroup>
 </map>

@@ -3,6 +3,7 @@ package com.tcg.light.gamestates;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.tcg.light.Constants;
 import com.tcg.light.Game;
@@ -90,7 +91,7 @@ public class PlayState extends GameState {
 		cam.update();
 		
 		if(!paused) {
-			t.upadate(w);
+			t.upadate(w, cam);
 			t.handleInput();
 			
 			t.first = false;
@@ -106,12 +107,17 @@ public class PlayState extends GameState {
 	@Override
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float dt) {
 		drawBG(sb);
-		w.render(cam);
+		w.render(cam, sb);
 		
 		sb.begin();
 		sb.setProjectionMatrix(cam.combined);
 		t.draw(sr, sb, dt);
 		sb.end();
+		
+		sr.begin(ShapeType.Filled);
+		sr.setProjectionMatrix(cam.combined);
+		t.drawLightning(sr, sb, dt);
+		sr.end();
 		
 		hud.render(sb, sr, paused, t);
 	}
@@ -144,6 +150,7 @@ public class PlayState extends GameState {
 		stary.dispose();
 		t.dispose();
 		hud.dispose();
+		w.dispose();
 	}
 
 }
