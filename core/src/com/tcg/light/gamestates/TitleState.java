@@ -46,10 +46,10 @@ public class TitleState extends GameState {
 			currentItem++;
 		}
 		if(currentItem < 0) {
-			currentItem = 0;
+			currentItem = 2;
 		}
 		if(currentItem > 2) {
-			currentItem = 2;
+			currentItem = 0;
 		}
 		if(MyInput.keyPressed(MyInput.START) || MyInput.keyPressed(MyInput.SHOOT) || MyInput.keyPressed(MyInput.JUMP)) {
 			select();

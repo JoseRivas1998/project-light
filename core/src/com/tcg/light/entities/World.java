@@ -13,11 +13,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.buffs.*;
+import com.tcg.light.entities.enemies.*;
 
 public class World {
 	 
 		private Array<Rectangle> bounds;
 		private Array<Buff> buffs;
+		private Array<Enemy> ens;
 		
 		private TiledMap tileMap;
 		private OrthogonalTiledMapRenderer tmr;
@@ -29,7 +31,7 @@ public class World {
 		public World() {
 			bounds = new Array<Rectangle>();
 			buffs = new Array<Buff>();
-			
+			ens = new Array<Enemy>();
 			createTiles();
 		}
 		
@@ -52,6 +54,7 @@ public class World {
 			createSmallHealth(buffs);
 			createFullAmmo(buffs);
 			createFullHealth(buffs);
+			createSkeleton(ens);
 			
 			width = ground.getWidth() * tileSize;
 			height = ground.getHeight() * tileSize;
@@ -132,6 +135,17 @@ public class World {
 			}
 		}
 		
+		private void createSkeleton(Array<Enemy> en) {
+			MapLayer skel;
+			skel = tileMap.getLayers().get("skeleton");
+			for(MapObject mo : skel.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Skeleton(v));
+			}
+		}
+		
 		@SuppressWarnings("unused")
 		private void createObjectLayer(MapLayer layer, Array<Buff> buffs) {
 			
@@ -206,5 +220,13 @@ public class World {
 
 		public void setBuffs(Array<Buff> buffs) {
 			this.buffs = buffs;
+		}
+
+		public Array<Enemy> getEnemies() {
+			return ens;
+		}
+
+		public void setEnemies(Array<Enemy> ens) {
+			this.ens = ens;
 		}
 }

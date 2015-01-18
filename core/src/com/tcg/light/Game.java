@@ -68,7 +68,7 @@ public class Game extends ApplicationAdapter {
 			s.setHighScore(0);
 			s.setLevel(1);
 			s.setMaxHealth(100);
-			s.setMaxAmmo(60);
+			s.setMaxAmmo(30);
 			s.setLives(5);
 		}
 		

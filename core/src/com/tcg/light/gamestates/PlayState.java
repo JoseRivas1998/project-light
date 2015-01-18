@@ -9,6 +9,7 @@ import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.*;
+import com.tcg.light.entities.enemies.Enemy;
 import com.tcg.light.managers.GameStateManager;
 import com.tcg.light.managers.MyInput;
 
@@ -53,7 +54,7 @@ public class PlayState extends GameState {
 		
 		paused = false;
 		
-		Game.res.getMusic("daft").play();
+		Game.SCORE = 0;
 		
 	}
 
@@ -95,6 +96,17 @@ public class PlayState extends GameState {
 			t.handleInput();
 			
 			t.first = false;
+			for(Enemy e : w.getEnemies()) {
+				e.update(w, cam, t.getBullets());
+				if(e.getHealth() <= 0) {
+					Game.SCORE += e.worth();
+					w.getEnemies().removeValue(e, true);
+				}
+			}
+		}
+		
+		if(Game.SCORE > Game.HIGHSCORE) {
+			Game.HIGHSCORE = Game.SCORE;
 		}
 		
 		if(Game.LEVEL < 5) {
@@ -112,12 +124,19 @@ public class PlayState extends GameState {
 		sb.begin();
 		sb.setProjectionMatrix(cam.combined);
 		t.draw(sr, sb, dt);
+		for(Enemy e : w.getEnemies()) {
+			e.draw(sr, sb, dt, cam);
+		}
 		sb.end();
 		
 		sr.begin(ShapeType.Filled);
 		sr.setProjectionMatrix(cam.combined);
 		t.drawLightning(sr, sb, dt);
 		sr.end();
+		
+		for(Enemy e : w.getEnemies()) {
+			e.drawHealth(sr, cam);
+		}
 		
 		hud.render(sb, sr, paused, t);
 	}

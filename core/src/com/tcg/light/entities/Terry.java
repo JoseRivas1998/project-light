@@ -5,12 +5,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.buffs.*;
+import com.tcg.light.entities.enemies.Enemy;
 import com.tcg.light.managers.MyInput;
 
 public class Terry extends Entity {
@@ -273,6 +275,19 @@ public class Terry extends Entity {
 				w.getBuffs().removeValue(b, true);
 			}
 		}
+		for(Enemy e : w.getEnemies()) {
+			if(collidingWith(e)) {
+				if(dir == Constants.RIGHT) {
+					bounds.x = e.getX() - bounds.width - 5;
+					dir = Constants.LEFT;
+				} else {
+					bounds.x = e.getX() - e.getWidth() + 5;
+					dir = Constants.RIGHT;
+				}
+				health -= 5;
+				break;
+			}
+		}
 	}
 	
 	@Override
@@ -362,6 +377,14 @@ public class Terry extends Entity {
 
 	public void setLives(int lives) {
 		this.lives = lives;
+	}
+
+	public Array<Bullet> getBullets() {
+		return bullets;
+	}
+
+	public void setBullets(Array<Bullet> bullets) {
+		this.bullets = bullets;
 	}
 
 }
