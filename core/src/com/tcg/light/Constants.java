@@ -1,5 +1,6 @@
 package com.tcg.light;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -27,6 +28,10 @@ public class Constants {
 		} else {
 			return Constants.LEFT;
 		}
+	}
+	
+	public static Color randomColor() {
+		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
 	}
 	
 }

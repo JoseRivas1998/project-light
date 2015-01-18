@@ -51,7 +51,7 @@ public class TitleState extends GameState {
 		if(currentItem > 2) {
 			currentItem = 0;
 		}
-		if(MyInput.keyPressed(MyInput.START) || MyInput.keyPressed(MyInput.SHOOT) || MyInput.keyPressed(MyInput.JUMP)) {
+		if(MyInput.keyPressed(MyInput.START) || MyInput.keyPressed(MyInput.SHOOT) || (MyInput.keyPressed(MyInput.JUMP) && !MyInput.keyDown(MyInput.UP))) {
 			select();
 		}
 	}

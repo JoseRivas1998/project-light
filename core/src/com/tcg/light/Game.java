@@ -89,6 +89,8 @@ public class Game extends ApplicationAdapter {
 		res.loadSound("sound", "land.wav", "land");
 		res.loadSound("sound", "jump.wav", "jump");
 		res.loadSound("sound", "shoot.wav", "shoot");
+		res.loadSound("sound", "endie.wav", "endie");
+		res.loadSound("sound", "Victory1.ogg", "splash");
 
 		res.loadMidi("midi", "hc- Bloody Tears(NICH2).mid", "bloody tears", true);
 		res.loadMidi("midi", "darude-sandstorm.mid", "darude sandstorm", true);
@@ -104,7 +106,7 @@ public class Game extends ApplicationAdapter {
 		
 		Gdx.input.setInputProcessor(new MyInputProcessor());
 		Controllers.addListener(new MyControllerProcessor());
-		
+		Gdx.input.setCursorCatched(Gdx.graphics.isFullscreen());
 		gsm = new GameStateManager();
 	}
  

@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
@@ -30,6 +31,8 @@ public class PlayState extends GameState {
 	private HUD hud;
 	
 	private boolean paused;
+	
+	private Array<Particle> p;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -53,6 +56,8 @@ public class PlayState extends GameState {
 		hud = new HUD(t);
 		
 		paused = false;
+		
+		p = new Array<Particle>();
 		
 		Game.SCORE = 0;
 		
@@ -100,6 +105,7 @@ public class PlayState extends GameState {
 				e.update(w, cam, t.getBullets());
 				if(e.getHealth() <= 0) {
 					Game.SCORE += e.worth();
+					createParticles(e.paricles(), e.getCenter());
 					w.getEnemies().removeValue(e, true);
 				}
 			}
@@ -132,6 +138,12 @@ public class PlayState extends GameState {
 		sr.begin(ShapeType.Filled);
 		sr.setProjectionMatrix(cam.combined);
 		t.drawLightning(sr, sb, dt);
+		for(Particle pa : p) {
+			pa.draw(sr, sb, dt);
+			if(pa.isShouldRemove()) {
+				p.removeValue(pa, true);
+			}
+		}
 		sr.end();
 		
 		for(Enemy e : w.getEnemies()) {
@@ -154,6 +166,13 @@ public class PlayState extends GameState {
 			}
 		}
 		sb.end();
+	}
+	
+	private void createParticles(int amount, Vector2 pos) {
+		Game.res.getSound("endie").play(Game.VOLUME * .8f);
+		for(int i = 0; i < amount; i++) {
+			p.add(new Particle(pos, 1));
+		}
 	}
 	
 	@Override

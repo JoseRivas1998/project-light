@@ -28,7 +28,7 @@ public class GameStateManager {
 	public GameStateManager() {
 		sb = new SpriteBatch();
 		sr = new ShapeRenderer();
-		setState(TITLE);
+		setState(SPLASH);
 		tTimer = MathUtils.random(15);
 		tTime = 0;
 		playing = false;

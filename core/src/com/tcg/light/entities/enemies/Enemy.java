@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
@@ -255,6 +254,10 @@ public abstract class Enemy extends Entity {
 	
 	public int worth() {
 		return (maxHealth / 5) * 100;
+	}
+	
+	public int paricles() {
+		return (maxHealth / 5) * 3;
 	}
 	
 	@Override
