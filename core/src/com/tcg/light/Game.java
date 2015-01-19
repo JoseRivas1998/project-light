@@ -35,6 +35,8 @@ public class Game extends ApplicationAdapter {
 	
 	public static Content res;
 	
+	public static boolean FIRST;
+	
 	@Override
 	public void create () {
 		float width = Gdx.graphics.getWidth();
@@ -46,6 +48,7 @@ public class Game extends ApplicationAdapter {
 		CENTER.set(width * .5f, height * .5f);
 		
 		Game.SCORE = 0;
+		FIRST = false;
 		try {
 			FileInputStream fileIn = new FileInputStream("save.dat");
 			ObjectInputStream file = new ObjectInputStream(fileIn);
@@ -66,10 +69,11 @@ public class Game extends ApplicationAdapter {
 			}
 			s = new Save();
 			s.setHighScore(0);
-			s.setLevel(1);
+			s.setLevel(0);
 			s.setMaxHealth(100);
 			s.setMaxAmmo(30);
 			s.setLives(5);
+			FIRST = true;
 		}
 		
 		Game.HIGHSCORE = s.getHighScore();
@@ -175,6 +179,7 @@ public class Game extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		gsm.dispose();
+		res.removeAll();
 		s.setHighScore(Game.HIGHSCORE);
 		s.setLevel(Game.LEVEL);
 		s.setMaxAmmo(Game.MAXAMMO);

@@ -32,10 +32,4 @@ public class Bullet extends Entity {
 		sr.rect(getX(), getY(), getWidth(), getHeight());
 	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
 }

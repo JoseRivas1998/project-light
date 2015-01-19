@@ -32,7 +32,11 @@ public class TitleState extends GameState {
 				"New Game", "Continue", "Quit"
 		};
 		
-		currentItem = 0;
+		if(Game.FIRST) {
+			currentItem = 0;
+		} else {
+			currentItem = 1;
+		}
 		
 		cam = new MyCamera(Game.SIZE, true);
 	}
@@ -58,10 +62,16 @@ public class TitleState extends GameState {
 
 	private void select() {
 		if(currentItem == 0) {
-			gsm.setState(gsm.PLAY);
+			Game.LEVEL = 0;
+			gsm.setState(gsm.TUTORIAL);
 		}
 		if(currentItem == 1) {
-			gsm.setState(gsm.PLAY);
+			if(Game.FIRST || Game.LEVEL == 0) {
+				Game.LEVEL = 0;
+				gsm.setState(gsm.TUTORIAL);
+			} else {
+				gsm.setState(gsm.PLAY);
+			}
 		}
 		if(currentItem == 2) {
 			Gdx.app.exit();

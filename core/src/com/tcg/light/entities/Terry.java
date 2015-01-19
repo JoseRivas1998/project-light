@@ -28,9 +28,16 @@ public class Terry extends Entity {
 	
 	public boolean first;
 	
-	private int health, maxHealth, ammo, maxAmmo, lives;
+	private int health, maxHealth, ammo, maxAmmo, lives, pScore;
 	
 	private Array<Bullet> bullets;
+	
+	private boolean damageB = false;
+	private float dX = 0;
+	
+	private boolean takingDamage, pTakingDamage;
+	
+	public boolean shouldEnd;
 	
 	public Terry() {
 		super();
@@ -48,7 +55,11 @@ public class Terry extends Entity {
 		maxAmmo = Game.MAXAMMO;
 		health = maxHealth;
 		ammo = maxAmmo;
+		takingDamage = false;
+		pTakingDamage = false;
 		lives = Game.LIVES;
+		pScore = Game.SCORE;
+		shouldEnd = false;
 	}
 	
 	private void initializeAnimations() {
@@ -132,7 +143,7 @@ public class Terry extends Entity {
 		}
 	}
 	
-	public void upadate(World w, MyCamera cam) {
+	public void upadate(World w, MyCamera cam, float dt, boolean tutorial) {
 		bounds.width = 32;
 		bounds.height = 32;
 		
@@ -149,19 +160,18 @@ public class Terry extends Entity {
 		if(getRight() > w.getWidth()) {
 			bounds.x = w.getWidth() - bounds.width;
 		}
-		if(getTop() > w.getHeight()) {
-			bounds.y = w.getHeight() - bounds.height;
-		}
 		
 		if(getTop() < -500 || health <= 0) {
 			bounds.x = 32;
 			bounds.y = 32;
+			w.resetEnemies();
+			Game.SCORE = pScore;
 			health = maxHealth;
 			lives--;
 		}
 		
 		resetBounds();
-		collisions(w);
+		collisions(w, tutorial);
 		resetBounds();
 		
 		updateBullets(w, cam);
@@ -174,7 +184,22 @@ public class Terry extends Entity {
 		Game.MAXHEALTH = maxHealth;
 		Game.LIVES = lives;
 		
+		setDamage(dt);
+		
 		pTouchingG = touchingG;
+		pTakingDamage = takingDamage;
+	}
+
+	
+	private void setDamage(float dt) {
+		if(damageB) {
+			dX += dt;
+			if(dX > 0.25f) {
+				damageB = false;
+			}
+		} else {
+			dX = 0;
+		}
 	}
 	
 	private void updateBullets(World w, MyCamera cam) {
@@ -214,7 +239,7 @@ public class Terry extends Entity {
 		ts.y = getTop() - ts.height;
 	}
 	
-	private void collisions(World w) {
+	private void collisions(World w, boolean tutorial) {
 		for(Rectangle r : w.getBounds()) {
 			if(bs.overlaps(r)) {
 				bounds.y = r.y + r.height - 4;
@@ -271,6 +296,34 @@ public class Terry extends Entity {
 				if(b instanceof Stock) {
 					lives++;
 				}
+				if(b instanceof HealthUp) {
+					maxHealth += 10;
+					try {
+						if(tutorial) {
+							shouldEnd = true;
+						} else {
+							w.newLevel();
+						}
+					} catch (LevelDoesNotExist e) {
+						e.printStackTrace();
+						maxHealth -= 10;
+						shouldEnd = true;
+					}
+				}
+				if(b instanceof AmmoUp) {
+					maxAmmo += 5;
+					try {
+						if(tutorial) {
+							shouldEnd = true;
+						} else {
+							w.newLevel();
+						}
+					} catch (LevelDoesNotExist e) {
+						e.printStackTrace();
+						maxAmmo -= 5;
+						shouldEnd = true;
+					}
+				}
 				w.getBuffs().removeValue(b, true);
 			}
 		}
@@ -283,9 +336,15 @@ public class Terry extends Entity {
 					bounds.x = e.getX() - e.getWidth() + 5;
 					dir = Constants.RIGHT;
 				}
-				health -= 5;
+				if(!pTakingDamage) {
+					Game.res.getSound("hit").play(Game.VOLUME * .5f);
+					health -= 5;
+					damageB = true;
+				}
+				takingDamage = true; 
 				break;
 			}
+			takingDamage = false;
 		}
 	}
 	
@@ -320,6 +379,9 @@ public class Terry extends Entity {
 		}
 		
 		sb.draw(currentFrame, getCenter().x - (currentFrame.getRegionWidth() * .5f), getCenter().y - (currentFrame.getRegionHeight() * .5f));
+		if(damageB) {
+			sb.draw(damage, getX(), getY(), getWidth(), getHeight());
+		}
 	}
 	
 	public void drawLightning(ShapeRenderer sr, SpriteBatch sb, float dt) {
@@ -330,6 +392,7 @@ public class Terry extends Entity {
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		jltemp.dispose();
 		jrtemp.dispose();
 		wltemp.dispose();

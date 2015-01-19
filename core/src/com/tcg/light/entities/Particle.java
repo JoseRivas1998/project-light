@@ -32,9 +32,6 @@ public class Particle extends Entity {
 		sr.setColor(Color.WHITE);
 	}
 
-	@Override
-	public void dispose() {}
-
 	public boolean isShouldRemove() {
 		return shouldRemove;
 	}

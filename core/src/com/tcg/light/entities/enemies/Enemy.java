@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
+import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.*;
 
@@ -30,6 +31,9 @@ public abstract class Enemy extends Entity {
 
 	protected Vector2 spawn;
 	
+	private boolean damageB = false;
+	private float dX = 0;
+	
 	public Enemy(String folder, Vector2 pos, float speed, int health) {
 		super();
 		this.spawn = pos;
@@ -44,12 +48,31 @@ public abstract class Enemy extends Entity {
 		} else {
 			setVel(new Vector2(speed, 0));
 		}
-		initializeAnimations(folder);
+		initializeAnimations(folder, 1, .1f);
 		this.health = health;
 		this.maxHealth = health;
 	}
 	
-	protected void initializeAnimations(String folder) {
+	public Enemy(String folder, Vector2 pos, float speed, int health, int numIdle, float frameDura) {
+		super();
+		this.spawn = pos;
+		setPosition(spawn);
+		ls = new Rectangle();
+		rs = new Rectangle();
+		ts = new Rectangle();
+		bs = new Rectangle();
+		dir = Constants.randomDirection();
+		if(dir == Constants.LEFT) {
+			setVel(new Vector2(-speed, 0));
+		} else {
+			setVel(new Vector2(speed, 0));
+		}
+		initializeAnimations(folder, numIdle, frameDura);
+		this.health = health;
+		this.maxHealth = health;
+	}
+	
+	protected void initializeAnimations(String folder, int numIdle, float frameDura) {
 		stateTime = 0;
 		
 		String p = "entities/enemies/" + folder +  "/";
@@ -69,16 +92,16 @@ public abstract class Enemy extends Entity {
     	wrtemp = new Texture(p + "walkr.png");
     	TextureRegion[] wrframes = TextureRegion.split(wrtemp, wrtemp.getWidth() / numwrFrames, wrtemp.getHeight())[0];
         
-    	int numirFrames = 1;
+    	int numirFrames = numIdle;
     	irtemp = new Texture(p + "idler.png");
     	TextureRegion[] irframes = TextureRegion.split(irtemp, irtemp.getWidth() / numirFrames, irtemp.getHeight())[0];
 
-    	int numilFrames = 1;
+    	int numilFrames = numIdle;
     	iltemp = new Texture(p + "idlel.png");
     	TextureRegion[] ilframes = TextureRegion.split(iltemp, iltemp.getWidth() / numilFrames, iltemp.getHeight())[0];
 
     	
-    	float frameDur = .1f;
+    	float frameDur = frameDura;
     	
 		rj = new Animation(frameDur, jrframes);
 		lj = new Animation(frameDur, jlframes);
@@ -128,12 +151,14 @@ public abstract class Enemy extends Entity {
 		}
 		
 		sb.draw(currentFrame, getCenter().x - (currentFrame.getRegionWidth() * .5f), getCenter().y - (currentFrame.getRegionHeight() * .5f));
-	
+		if(damageB) {
+			sb.draw(damage, getX(), getY(), getWidth(), getHeight());
+		}
 	}
 	
 	public void drawHealth(ShapeRenderer sr, MyCamera cam) {
 		if(cam.inView(getCenter())) {
-			float width = 32;
+			float width = bounds.width;
 			float height = 10;
 			float ratio = (float) health / (float) maxHealth;
 			float rWidth = width * ratio;
@@ -148,10 +173,10 @@ public abstract class Enemy extends Entity {
 		}
 	}
 
-	public void update(World w, MyCamera cam, Array<Bullet> b) {
+	public void update(World w, MyCamera cam, Array<Bullet> b, float dt) {
 		if(cam.inView(getCenter())) {
-			bounds.width = 32;
-			bounds.height = 32;
+			bounds.width = currentFrame.getRegionWidth();
+			bounds.height = currentFrame.getRegionHeight();
 			
 			if(!touchingG && vel.y > -20) {
 				vel.y--;
@@ -172,9 +197,6 @@ public abstract class Enemy extends Entity {
 			if(getRight() > w.getWidth()) {
 				bounds.x = w.getWidth() - bounds.width;
 			}
-			if(getTop() > w.getHeight()) {
-				bounds.y = w.getHeight() - bounds.height;
-			}
 			
 			resetBounds();
 			collisions(w);
@@ -182,10 +204,13 @@ public abstract class Enemy extends Entity {
 			patrol();
 			for(Bullet bu : b) {
 				if(bu.collidingWith(this)) {
+					Game.res.getSound("hit").play(Game.VOLUME * .5f);
 					this.health -= 5;
+					damageB = true;
 					b.removeValue(bu, true);
 				}
 			}
+			setDamage(dt);
 		}
 		
 		if(getCenter().y <= 1) {
@@ -193,6 +218,17 @@ public abstract class Enemy extends Entity {
 		}
 	}
 
+	
+	private void setDamage(float dt) {
+		if(damageB) {
+			dX += dt;
+			if(dX > 0.25f) {
+				damageB = false;
+			}
+		} else {
+			dX = 0;
+		}
+	}
 	private void resetBounds() {
 		ls.width = 2;
 		rs.width = 2;
@@ -216,7 +252,7 @@ public abstract class Enemy extends Entity {
 	private void collisions(World w) {
 		for(Rectangle r : w.getBounds()) {
 			if(bs.overlaps(r)) {
-				bounds.y = r.y + r.height - 4;
+				bounds.y = r.y + r.height - (bounds.height / 8);
 				touchingG = true;
 				break;
 			} else {
@@ -262,6 +298,7 @@ public abstract class Enemy extends Entity {
 	
 	@Override
 	public void dispose() {
+		super.dispose();
 		jltemp.dispose();
 		jrtemp.dispose();
 		wltemp.dispose();

@@ -25,6 +25,7 @@ public abstract class Buff extends Entity {
 
 	@Override
 	public void dispose() {
+		super.dispose();
 		t.dispose();
 	}
 

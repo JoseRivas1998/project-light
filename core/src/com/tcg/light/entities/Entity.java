@@ -1,5 +1,6 @@
 package com.tcg.light.entities;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -10,14 +11,19 @@ public abstract class Entity {
 	protected Rectangle bounds;
 	protected Vector2 vel;
 	
+	protected Texture damage;
+	
 	protected Entity() {
 		bounds = new Rectangle();
 		vel = new Vector2();
+		damage = new Texture("entities/damage.png");
 	}
 	
 	public abstract void draw(ShapeRenderer sr, SpriteBatch sb, float dt);
 	
-	public abstract void dispose();
+	public void dispose() {
+		damage.dispose();
+	}
 	
 	
 	public float getX() {

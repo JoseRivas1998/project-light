@@ -10,7 +10,8 @@ import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.*;
-import com.tcg.light.entities.enemies.Enemy;
+import com.tcg.light.entities.buffs.*;
+import com.tcg.light.entities.enemies.*;
 import com.tcg.light.managers.GameStateManager;
 import com.tcg.light.managers.MyInput;
 
@@ -41,7 +42,18 @@ public class PlayState extends GameState {
 	@Override
 	protected void init() {
 		
-		w = new World();
+		try {
+			w = new World();
+		} catch (LevelDoesNotExist e) {
+			e.printStackTrace();
+			Game.LEVEL = 0;
+			try {
+				w = new World();
+			} catch (LevelDoesNotExist e1) {
+				e1.printStackTrace();
+				gsm.setState(gsm.TITLE);
+			}
+		}
 		
 		t = new Terry();
 
@@ -97,15 +109,27 @@ public class PlayState extends GameState {
 		cam.update();
 		
 		if(!paused) {
-			t.upadate(w, cam);
+			t.upadate(w, cam, dt, false);
 			t.handleInput();
 			
 			t.first = false;
 			for(Enemy e : w.getEnemies()) {
-				e.update(w, cam, t.getBullets());
+				e.update(w, cam, t.getBullets(), dt);
 				if(e.getHealth() <= 0) {
 					Game.SCORE += e.worth();
 					createParticles(e.paricles(), e.getCenter());
+					if(e instanceof Boss) {
+						HealthUp h;
+						AmmoUp a;
+						Vector2 pos = new Vector2();
+						pos.y = t.getCenter().y - 16;
+						pos.x = t.getX() - 128;
+						h = new HealthUp(pos);
+						pos.x = t.getRight() + 128;
+						a = new AmmoUp(pos);
+						w.getBuffs().add(a);
+						w.getBuffs().add(h);
+					}
 					w.getEnemies().removeValue(e, true);
 				}
 			}
@@ -115,10 +139,8 @@ public class PlayState extends GameState {
 			Game.HIGHSCORE = Game.SCORE;
 		}
 		
-		if(Game.LEVEL < 5) {
-			bg = stary;
-		} else {
-			bg = stormy;
+		if(t.shouldEnd) {
+			gsm.setState(gsm.TITLE);
 		}
 	}
 
@@ -154,6 +176,11 @@ public class PlayState extends GameState {
 	}
 
 	private void drawBG(SpriteBatch sb) {
+		if(Game.LEVEL < 5) {
+			bg = stary;
+		} else {
+			bg = stormy;
+		}
 		int numDrawW = (int) ((w.getWidth() * Constants.ZOOM) / bg.getWidth());
 		int numDrawH = (int) ((w.getHeight() * Constants.ZOOM) / bg.getHeight());
 		numDrawW++;

@@ -19,7 +19,8 @@ public class GameStateManager {
 
 	public final int SPLASH = 0;
 	public final int TITLE = 1;
-	public final int PLAY = 2;
+	public final int TUTORIAL = 2;
+	public final int PLAY = 3;
 	
 	private float tTime, tTimer;
 	private boolean playing, pPlaying;
@@ -45,6 +46,9 @@ public class GameStateManager {
 		}
 		if(state == TITLE) {
 			gamestate = new TitleState(this);
+		}
+		if(state == TUTORIAL) {
+			gamestate = new TutorialState(this);
 		}
 		if(state == PLAY) {
 			gamestate = new PlayState(this);

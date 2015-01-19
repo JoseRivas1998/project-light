@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.entities.buffs.*;
 import com.tcg.light.entities.enemies.*;
@@ -28,11 +29,17 @@ public class World {
 		
 		private float tileSize;
 		
-		public World() {
+		public final int numLevels = 1;
+		
+		public World() throws LevelDoesNotExist {
 			bounds = new Array<Rectangle>();
 			buffs = new Array<Buff>();
 			ens = new Array<Enemy>();
-			createTiles();
+			if(Game.LEVEL <= numLevels) {
+				createTiles();
+			} else {
+				throw new LevelDoesNotExist("There is no level " + Game.LEVEL);
+			}
 		}
 		
 		private void createTiles() {
@@ -40,7 +47,7 @@ public class World {
 			bounds.clear();
 			buffs.clear();
 			
-			tileMap = new TmxMapLoader().load("maps/test.tmx");
+			tileMap = new TmxMapLoader().load("maps/map" + Game.LEVEL + ".tmx");
 			tmr = new OrthogonalTiledMapRenderer(tileMap);
 			tileSize = tileMap.getProperties().get("tilewidth", Integer.class);
 			
@@ -54,13 +61,31 @@ public class World {
 			createSmallHealth(buffs);
 			createFullAmmo(buffs);
 			createFullHealth(buffs);
-			createSkeleton(ens);
+			resetEnemies();
 			
 			width = ground.getWidth() * tileSize;
 			height = ground.getHeight() * tileSize;
 			tileWidth = ground.getWidth();
 			tileHeight = ground.getHeight();
 			
+		}
+		
+		public void newLevel() throws LevelDoesNotExist {
+			Game.LEVEL++;
+			if(Game.LEVEL <= numLevels) {
+				createTiles();
+			} else {
+				throw new LevelDoesNotExist("There is no level " + Game.LEVEL);
+			}
+		}
+		
+		public void resetEnemies() {
+			ens.clear();
+			createSkeleton(ens);
+			createImp(ens);
+			createSlime(ens);
+			createFlower(ens);
+			createBoss(ens);
 		}
 		
 		private void createLayer(TiledMapTileLayer layer, Array<Rectangle> rect) {
@@ -134,7 +159,7 @@ public class World {
 				buffs.add(new FullHealth(v));
 			}
 		}
-		
+
 		private void createSkeleton(Array<Enemy> en) {
 			MapLayer skel;
 			skel = tileMap.getLayers().get("skeleton");
@@ -143,6 +168,53 @@ public class World {
 				Vector2 v = new Vector2(e.x, e.y);
 				
 				en.add(new Skeleton(v));
+			}
+		}
+		
+		private void createImp(Array<Enemy> en) {
+			MapLayer imp;
+			imp = tileMap.getLayers().get("imp");
+			for(MapObject mo : imp.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Imp(v));
+			}
+		}
+		
+		private void createSlime(Array<Enemy> en) {
+			MapLayer slime;
+			slime = tileMap.getLayers().get("slime");
+			for(MapObject mo : slime.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Slime(v));
+			}
+		}
+		
+		private void createFlower(Array<Enemy> en) {
+			MapLayer flower;
+			flower = tileMap.getLayers().get("flower");
+			for(MapObject mo : flower.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Flower(v));
+			}
+		}
+		
+		private void createBoss(Array<Enemy> en) {
+			MapLayer boss;
+			boss = tileMap.getLayers().get("boss");
+			for(MapObject mo : boss.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				if(Game.LEVEL == 0) {
+					en.add(new Boss(v, 30));
+				} else {
+					en.add(new Boss(v));
+				}
 			}
 		}
 		
