@@ -41,7 +41,7 @@ public class Terry extends Entity {
 	
 	public Terry() {
 		super();
-		setPosition(32, 32);
+		setPosition(96, 32);
 		ls = new Rectangle();
 		rs = new Rectangle();
 		ts = new Rectangle();
@@ -126,18 +126,22 @@ public class Terry extends Entity {
 		if(!first) {
 			if(ammo > 0) {
 				if(MyInput.keyDown(MyInput.SHOOT)) {
-					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-					bullets.add(new Bullet(dir, getCenter()));
-					if(ammo > 0) {
-						ammo--;
-					} else {
-						ammo = 0;
+					if(bullets.size < 5) {
+						Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+						bullets.add(new Bullet(dir, getCenter()));
+						if(ammo > 0) {
+							ammo--;
+						} else {
+							ammo = 0;
+						}
 					}
 				}
 			} else {
 				if(MyInput.keyPressed(MyInput.SHOOT)) {
-					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-					bullets.add(new Bullet(dir, getCenter()));
+					if(bullets.size < 5) {
+						Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+						bullets.add(new Bullet(dir, getCenter()));
+					}
 				}
 			}
 		}
@@ -162,7 +166,7 @@ public class Terry extends Entity {
 		}
 		
 		if(getTop() < -500 || health <= 0) {
-			bounds.x = 32;
+			bounds.x = 96;
 			bounds.y = 32;
 			w.resetEnemies();
 			Game.SCORE = pScore;
@@ -239,7 +243,7 @@ public class Terry extends Entity {
 		ts.y = getTop() - ts.height;
 	}
 	
-	private void collisions(World w, boolean tutorial) {
+	private void collisionGround(World w, boolean tutorial) {
 		for(Rectangle r : w.getBounds()) {
 			if(bs.overlaps(r)) {
 				bounds.y = r.y + r.height - 4;
@@ -271,6 +275,17 @@ public class Terry extends Entity {
 				break;
 			}
 		}
+		resetBounds();
+		for(Rectangle r : w.getBounds()) {
+			if(bs.overlaps(r) && ts.overlaps(r)) {
+				bounds.y = r.y + r.height - 4;
+				break;
+			} 
+		}
+	}
+	
+	private void collisions(World w, boolean tutorial) {
+		collisionGround(w, tutorial);
 		for(Buff b : w.getBuffs()) {
 			if(collidingWith(b)) {
 				if(b instanceof SmallAmmo) {
@@ -346,6 +361,7 @@ public class Terry extends Entity {
 			}
 			takingDamage = false;
 		}
+		collisionGround(w, tutorial);
 	}
 	
 	@Override
