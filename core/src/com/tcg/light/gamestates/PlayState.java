@@ -142,6 +142,9 @@ public class PlayState extends GameState {
 		if(t.shouldEnd) {
 			gsm.setState(gsm.TITLE);
 		}
+		if(t.getLives() <= 0) {
+			gsm.setState(gsm.GAMEOVER);
+		}
 	}
 
 	@Override

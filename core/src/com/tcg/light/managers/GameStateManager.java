@@ -21,6 +21,7 @@ public class GameStateManager {
 	public final int TITLE = 1;
 	public final int TUTORIAL = 2;
 	public final int PLAY = 3;
+	public final int GAMEOVER = 4;
 	
 	private float tTime, tTimer;
 	private boolean playing, pPlaying;
@@ -52,6 +53,9 @@ public class GameStateManager {
 		}
 		if(state == PLAY) {
 			gamestate = new PlayState(this);
+		}
+		if(state == GAMEOVER) {
+			gamestate = new GameOverState(this);
 		}
 	}
 	

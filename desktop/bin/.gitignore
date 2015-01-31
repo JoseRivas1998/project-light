@@ -1,11 +1,10 @@
-/com/
-/sound/
-/splash/
-/maps/
-/midi/
-/music/
 /entities/
 /font/
 /hud/
+/maps/
+/midi/
+/music/
+/sound/
 /backgrounds/
 /badlogic.jpg
+/com/
