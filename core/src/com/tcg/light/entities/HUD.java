@@ -118,11 +118,11 @@ public class HUD {
 			p2 = "Press Enter or Start to resume";
 			p3 = "Press Back or Backspace to exit";
 			float pX1, pX2, pX3, pY1, pY2, pY3;
-			pX1 = Game.CENTER.x - (Game.res.getWidth("main", p1) * .5f);
-			pX2 = Game.CENTER.x - (Game.res.getWidth("main", p2) * .5f);
-			pX3 = Game.CENTER.x - (Game.res.getWidth("main", p3) * .5f);
+			pX1 = Game.res.centerX("main", p1);
+			pX2 = Game.res.centerX("main", p2);
+			pX3 = Game.res.centerX("main", p3);
 			
-			pY2 = Game.CENTER.y + (Game.res.getHeight("main", p3) * .5f);
+			pY2 = Game.res.centerY("main", p2);
 			pY1 = pY2 + Game.res.getHeight("main", p3) + 5;
 			pY3 = pY2 - Game.res.getHeight("main", p3) - 5;
 

@@ -169,7 +169,7 @@ public class Terry extends Entity {
 			bounds.x = 96;
 			bounds.y = 32;
 			w.resetEnemies();
-			Game.SCORE = pScore;
+			if(lives > 1)Game.SCORE = pScore;
 			health = maxHealth;
 			lives--;
 		}

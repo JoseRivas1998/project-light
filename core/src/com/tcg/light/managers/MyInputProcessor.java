@@ -60,7 +60,7 @@ public class MyInputProcessor extends InputAdapter {
 		if(keycode == Keys.X || keycode == Keys.ENTER) {
 			MyInput.setKey(MyInput.SHOOT, false);
 		}
-		if(keycode == Keys.SPACE) {
+		if(keycode == Keys.SPACE || keycode == Keys.Z) {
 			MyInput.setKey(MyInput.JUMP, false);
 		}
 		if(keycode == Keys.ESCAPE) {

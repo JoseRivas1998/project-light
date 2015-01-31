@@ -8,6 +8,8 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.math.Vector2;
+import com.tcg.light.Game;
 import com.tcg.light.managers.midi.Midi;
 
 public class Content {
@@ -100,6 +102,18 @@ public class Content {
 	
 	public float getHeight(String key, String s) {
 		return font.get(key).getBounds(s).height - font.get(key).getDescent();
+	}
+	
+	public float centerX(String key, String s) {
+		return Game.CENTER.x - (getWidth(key, s) * .5f);
+	}
+	
+	public float centerY(String key, String s) {
+		return Game.CENTER.y + (getHeight(key, s) * .5f);
+	}
+	
+	public Vector2 center(String key, String s) {
+		return new Vector2(centerX(key, s), centerY(key, s));
 	}
 	
 	/*
