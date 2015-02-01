@@ -23,13 +23,14 @@ public class HUD {
 	
 	private float livesX, livesY, livesH;
 	
-	private Texture face;
+	private Texture face, txtbg;
 	
 	private String health, ammo, score, highScore, lives;
 	
 	public HUD(Terry t) {
 		cam = new MyCamera(Game.SIZE, true);
 		face = new Texture("hud/My Face.png");
+		txtbg = new Texture("textbg.png");
 		setValues(t);
 	}
 	
@@ -115,7 +116,7 @@ public class HUD {
 			p1 = "Game Paused";
 			p2 = "Press Enter or Start to resume";
 			p3 = "Press Back or Backspace to exit";
-			float pX1, pX2, pX3, pY1, pY2, pY3;
+			float pX1, pX2, pX3, pY1, pY2, pY3, bgX, bgY, bgW, bgH;
 			pX1 = Game.res.centerX("main", p1);
 			pX2 = Game.res.centerX("main", p2);
 			pX3 = Game.res.centerX("main", p3);
@@ -123,7 +124,16 @@ public class HUD {
 			pY2 = Game.res.centerY("main", p2);
 			pY1 = pY2 + Game.res.getHeight("main", p3) + 5;
 			pY3 = pY2 - Game.res.getHeight("main", p3) - 5;
+			
+			bgW = Math.max(Math.max(Game.res.getWidth("main", p1), Game.res.getWidth("main", p2)) ,Game.res.getWidth("main", p3));
+			bgW += 140;
+			
+			bgH = pY1 - pY3 + (Game.res.getHeight("main", p3) * 5);
+			
+			bgX = Game.CENTER.x - (bgW * .5f);
+			bgY = Game.CENTER.y - (bgH * .5f);
 
+			sb.draw(txtbg, bgX, bgY, bgW, bgH);
 			Game.res.getFont("main").draw(sb, p1, pX1, pY1);
 			Game.res.getFont("main").draw(sb, p2, pX2, pY2);
 			Game.res.getFont("main").draw(sb, p3, pX3, pY3);
@@ -139,6 +149,7 @@ public class HUD {
 	
 	public void dispose() {
 		face.dispose();
+		txtbg.dispose();
 	}
 
 }
