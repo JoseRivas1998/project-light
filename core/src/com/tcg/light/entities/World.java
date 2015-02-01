@@ -68,6 +68,11 @@ public class World {
 			tileWidth = ground.getWidth();
 			tileHeight = ground.getHeight();
 			
+			if(Game.LEVEL == 0) {
+				Game.res.getMusic("level1").play();
+			} else {
+				Game.res.getMusic("level" + Game.LEVEL).play();
+			}
 		}
 		
 		public void newLevel() throws LevelDoesNotExist {

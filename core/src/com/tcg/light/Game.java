@@ -95,12 +95,16 @@ public class Game extends ApplicationAdapter {
 		res.loadSound("sound", "shoot.wav", "shoot");
 		res.loadSound("sound", "endie.wav", "endie");
 		res.loadSound("sound", "Victory1.ogg", "splash");
+		res.loadSound("sound", "Gameover2.ogg", "gameover");
 
 		res.loadMidi("midi", "hc- Bloody Tears(NICH2).mid", "bloody tears", true);
 		res.loadMidi("midi", "darude-sandstorm.mid", "darude sandstorm", true);
 		res.loadMidi("midi", "hyrule-castle.mid", "castle", true);
 		
 		res.loadMusic("music", "09 Technologic.mp3", "daft", true);
+		res.loadMusic("music", "Theme3.ogg", "title", true);
+		res.loadMusic("music", "Field1.ogg", "level1", true);
+		res.loadMusic("music", "Field2.ogg", "level2", true);
 
 		res.loadBitmapFont("font", "GOTHIC.TTF", "main", 24, Color.WHITE);
 		res.loadBitmapFont("font", "GOTHIC.TTF", "large", 56, Color.WHITE);

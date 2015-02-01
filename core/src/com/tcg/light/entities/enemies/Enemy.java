@@ -164,7 +164,7 @@ public abstract class Enemy extends Entity {
 			float rWidth = width * ratio;
 			sr.begin(ShapeType.Filled);
 			sr.setColor(Color.RED);
-			sr.rect(getX(), getY() - height - 2, rWidth, height);
+			sr.rect(getX(), getY() - height - 2, rWidth, height, new Color(1, 0, 0, 1), new Color(1, .5f, .5f, 1), new Color(1, .5f, .5f, 1), new Color(1, 0, 0, 1));
 			sr.end();
 			sr.begin(ShapeType.Line);
 			sr.setColor(Color.WHITE);
@@ -174,7 +174,7 @@ public abstract class Enemy extends Entity {
 	}
 
 	public void update(World w, MyCamera cam, Array<Bullet> b, float dt) {
-		if(cam.inView(getCenter())) {
+		if(cam.inView(getCenter()) || Game.fps > 57) {
 			bounds.width = currentFrame.getRegionWidth();
 			bounds.height = currentFrame.getRegionHeight();
 			

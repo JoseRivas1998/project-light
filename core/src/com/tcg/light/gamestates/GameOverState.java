@@ -16,6 +16,7 @@ public class GameOverState extends GameState {
 	private boolean first;
 	private MyCamera cam;
 	private float gX, gY, sX, sY;
+	private float time, timer;
 	
 	public GameOverState(GameStateManager gsm) {
 		super(gsm);
@@ -28,12 +29,16 @@ public class GameOverState extends GameState {
 		Game.LIVES = 5;
 		cam = new MyCamera(Game.SIZE, true);
 		setValues();
+		time = 0;
+		timer = 17.782f;
+		Game.res.getSound("gameover").play();
 	}
 
 	@Override
 	public void handleInput() {
 		if(!first && MyInput.anyKeyPressed()) {
 			gsm.setState(gsm.TITLE);
+			Game.res.getSound("gameover").stop();
 		}
 
 	}
@@ -42,6 +47,12 @@ public class GameOverState extends GameState {
 	public void update(float dt) {
 		setValues();
 		first = false;
+		time += dt;
+		if(time > timer) {
+			time = 0;
+			gsm.setState(gsm.TITLE);
+			Game.res.getSound("gameover").stop();
+		}
 	}
 	
 	private void setValues() {
@@ -55,7 +66,6 @@ public class GameOverState extends GameState {
 	
 	@Override
 	public void draw(SpriteBatch sb, ShapeRenderer sr, float dt) {
-		// TODO Auto-generated method stub
 		Color col1, col2;
 		col1 = new Color(75f / 255f, 75f / 255f, 75f / 255f, 1);
 		col2 = Color.BLACK;

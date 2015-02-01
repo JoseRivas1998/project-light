@@ -90,11 +90,9 @@ public class HUD {
 		setValues(t);
 
 		sr.begin(ShapeType.Filled);
-		sr.setColor(Color.YELLOW);
 		sr.setProjectionMatrix(cam.combined);
-		sr.rect(ammoX, ammoY, ammoBarW, ammoH);
-		sr.setColor(Color.RED);
-		sr.rect(healthX, healthY, healthBarW, helathH);
+		sr.rect(ammoX, ammoY, ammoBarW, ammoH, new Color(1, 1, 0, 1), new Color(1, 1, .5f, 1), new Color(1, 1, .5f, 1), new Color(1, 1, 0, 1));
+		sr.rect(healthX, healthY, healthBarW, helathH, new Color(1, 0, 0, 1), new Color(1, .5f, .5f, 1), new Color(1, .5f, .5f, 1), new Color(1, 0, 0, 1));
 		sr.end();
 		
 		sr.begin(ShapeType.Line);
