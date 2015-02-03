@@ -96,6 +96,8 @@ public class Game extends ApplicationAdapter {
 		res.loadSound("sound", "endie.wav", "endie");
 		res.loadSound("sound", "Victory1.ogg", "splash");
 		res.loadSound("sound", "Gameover2.ogg", "gameover");
+		res.loadSound("sound", "Cursor2.ogg", "cursor");
+		res.loadSound("sound", "Decision3.ogg", "decision");
 
 		res.loadMidi("midi", "hc- Bloody Tears(NICH2).mid", "bloody tears", true);
 		res.loadMidi("midi", "darude-sandstorm.mid", "darude sandstorm", true);

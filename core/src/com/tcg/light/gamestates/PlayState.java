@@ -78,9 +78,11 @@ public class PlayState extends GameState {
 	@Override
 	public void handleInput() {
 		if(MyInput.keyPressed(MyInput.START)) {
+			Game.res.getSound("decision").play(Game.VOLUME * .8f);
 			paused = !paused;
 		}
 		if(paused && MyInput.keyPressed(MyInput.BACK)) {
+			Game.res.getSound("decision").play(Game.VOLUME * .8f);
 			gsm.setState(gsm.TITLE);
 		}
 	}

@@ -169,7 +169,7 @@ public class Terry extends Entity {
 			bounds.x = 96;
 			bounds.y = 32;
 			w.resetEnemies();
-			if(lives > 1)Game.SCORE = pScore;
+			if(lives > 1) Game.SCORE = pScore;
 			health = maxHealth;
 			lives--;
 		}
@@ -348,11 +348,11 @@ public class Terry extends Entity {
 					bounds.x = e.getX() - bounds.width - 5;
 					dir = Constants.LEFT;
 				} else {
-					bounds.x = e.getX() - e.getWidth() + 5;
+					bounds.x = e.getX() + e.getWidth() + 5;
 					dir = Constants.RIGHT;
 				}
 				if(!pTakingDamage) {
-					Game.res.getSound("hit").play(Game.VOLUME * .5f);
+					Game.res.getSound("hit").play(Game.VOLUME * .8f);
 					health -= 5;
 					damageB = true;
 				}

@@ -1,6 +1,8 @@
 package com.tcg.light;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -34,4 +36,23 @@ public class Constants {
 		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
 	}
 	
+	public static Color rgb(float r, float g, float b, float a) {
+		return new Color(r / 255f, g / 255f, b / 255f, a / 255f);
+	}
+
+	public static void drawTextBg(ShapeRenderer sr, float x, float y, float w, float h, MyCamera cam) {
+		sr.begin(ShapeType.Filled);
+		sr.setProjectionMatrix(cam.combined);
+		Color bL = Constants.rgb(45, 50, 107, 255);
+		Color bR = Constants.rgb(41, 42, 65, 255);
+		Color tR = Constants.rgb(45, 50, 107, 255);
+		Color tL = Constants.rgb(112, 118, 176, 255);
+		sr.rect(x, y, w, h, bL, bR, tR, tL);
+		sr.end();
+		sr.begin(ShapeType.Line);
+		sr.setProjectionMatrix(cam.combined);
+		sr.setColor(Color.WHITE);
+		sr.rect(x, y, w, h);
+		sr.end();
+	}
 }

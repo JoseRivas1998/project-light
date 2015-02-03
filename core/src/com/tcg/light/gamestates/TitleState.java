@@ -5,8 +5,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 import com.tcg.light.managers.GameStateManager;
@@ -23,6 +23,9 @@ public class TitleState extends GameState {
 	private Texture tex, txtbg;
 	
 	private int currentItem;
+	
+	private float quitTime, quitTimer;
+	private boolean quit;
 	
 	public TitleState(GameStateManager gsm) {
 		super(gsm);
@@ -41,8 +44,11 @@ public class TitleState extends GameState {
 		} else {
 			currentItem = 1;
 		}
-
-//		tex = new Texture("backgrounds/space.jpg");
+		
+		quitTime = 0;
+		quitTimer = .6f;
+		quit = false;
+		
 		tex = new Texture("backgrounds/SeaofClouds.png");
 		txtbg = new Texture("textbg.png");
 		
@@ -53,24 +59,29 @@ public class TitleState extends GameState {
 
 	@Override
 	public void handleInput() {
-		if(MyInput.keyPressed(MyInput.UP)) {
-			currentItem--;
-		}
-		if(MyInput.keyPressed(MyInput.DOWN)) {
-			currentItem++;
-		}
-		if(currentItem < 0) {
-			currentItem = 2;
-		}
-		if(currentItem > 2) {
-			currentItem = 0;
-		}
-		if(MyInput.keyPressed(MyInput.START) || MyInput.keyPressed(MyInput.SHOOT) || (MyInput.keyPressed(MyInput.JUMP) && !MyInput.keyDown(MyInput.UP))) {
-			select();
-		}
+			if(!quit) {
+				if(MyInput.keyPressed(MyInput.UP)) {
+					currentItem--;
+					Game.res.getSound("cursor").play(Game.VOLUME * .8f);
+				}
+				if(MyInput.keyPressed(MyInput.DOWN)) {
+					currentItem++;
+					Game.res.getSound("cursor").play(Game.VOLUME * .8f);
+				}
+				if(currentItem < 0) {
+					currentItem = 2;
+				}
+				if(currentItem > 2) {
+					currentItem = 0;
+				}
+				if(MyInput.keyPressed(MyInput.START) || MyInput.keyPressed(MyInput.SHOOT) || (MyInput.keyPressed(MyInput.JUMP) && !MyInput.keyDown(MyInput.UP))) {
+					select();
+				}
+			} 
 	}
 
 	private void select() {
+		Game.res.getSound("decision").play(Game.VOLUME * .8f);
 		if(currentItem == 0) {
 			Game.LEVEL = 0;
 			gsm.setState(gsm.TUTORIAL);
@@ -84,14 +95,20 @@ public class TitleState extends GameState {
 			}
 		}
 		if(currentItem == 2) {
-			Gdx.app.exit();
+			quit = true;
 		}
 	}
 
 	@Override
 	public void update(float dt) {
 		setTextValues();
-
+		if(quit) {
+			quitTime += dt;
+			if(quitTime >= quitTimer) {
+				quitTime = 0;
+				Gdx.app.exit();
+			}
+		}
 	}
 
 	private void setTextValues() {
@@ -122,8 +139,12 @@ public class TitleState extends GameState {
 		float h = ((tY - (Game.res.getHeight("large", Game.TITLE) * 4)) - ((Game.res.getHeight("mItems", menuItems[0]) * 2) * 0)) - (tY - (Game.res.getHeight("large", Game.TITLE) * 4)) - ((Game.res.getHeight("mItems", menuItems[2]) * 2) * 4);
 		float bgy = (tY - (Game.res.getHeight("large", Game.TITLE) * 4)) - ((Game.res.getHeight("mItems", menuItems[1]) * 2) * 1);
 		
-		sb.draw(txtbg, Game.CENTER.x - (w * .5f), bgy - (h * .5f), w, h);
+		sb.end();
 		
+		Constants.drawTextBg(sr, Game.CENTER.x - (w * .5f), bgy - (h * .5f), w, h, cam);
+		
+		sb.begin();
+		sb.setProjectionMatrix(cam.combined);
 		for(int i = 0; i < menuItems.length; i++) {
 			if(i == currentItem) {
 				Game.res.getFont("mItems").setColor(Color.RED);
@@ -138,13 +159,6 @@ public class TitleState extends GameState {
 		}
 		
 		sb.end();
-		
-		//willChange to Texture 
-		sr.begin(ShapeType.Line);
-		sr.setProjectionMatrix(cam.combined);
-		sr.setColor(Color.RED);
-		sr.rect(Game.CENTER.x - (w * .5f), bgy - (h * .5f), w, h);
-		sr.end();
 
 	}
 

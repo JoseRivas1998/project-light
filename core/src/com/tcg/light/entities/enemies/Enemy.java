@@ -204,7 +204,7 @@ public abstract class Enemy extends Entity {
 			patrol();
 			for(Bullet bu : b) {
 				if(bu.collidingWith(this)) {
-					Game.res.getSound("hit").play(Game.VOLUME * .5f);
+					Game.res.getSound("hit").play(Game.VOLUME * .8f);
 					this.health -= 5;
 					damageB = true;
 					b.removeValue(bu, true);

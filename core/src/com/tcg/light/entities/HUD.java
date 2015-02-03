@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 
@@ -112,6 +113,8 @@ public class HUD {
 		Game.res.getFont("main").draw(sb, lives, livesX, livesY);
 		sb.draw(face, faceX, faceY, faceW, faceH);
 		if(paused) {
+			sb.end();
+			
 			String p1, p2, p3;
 			p1 = "Game Paused";
 			p2 = "Press Enter or Start to resume";
@@ -132,8 +135,11 @@ public class HUD {
 			
 			bgX = Game.CENTER.x - (bgW * .5f);
 			bgY = Game.CENTER.y - (bgH * .5f);
-
-			sb.draw(txtbg, bgX, bgY, bgW, bgH);
+			
+			Constants.drawTextBg(sr, bgX, bgY, bgW, bgH, cam);
+			
+			sb.begin();
+			sb.setProjectionMatrix(cam.combined);
 			Game.res.getFont("main").draw(sb, p1, pX1, pY1);
 			Game.res.getFont("main").draw(sb, p2, pX2, pY2);
 			Game.res.getFont("main").draw(sb, p3, pX3, pY3);
