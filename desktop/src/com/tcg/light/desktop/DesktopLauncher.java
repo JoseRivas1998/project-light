@@ -38,6 +38,7 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 	public DesktopLauncher() {
 		fullScreenB = new JCheckBox("Fullscreen");
 		fullScreenB.setSelected(false);
+		fullScreenB.addActionListener(this);
 		vSyncB = new JCheckBox("vSync");
 		vSyncB.setSelected(true);
 		fullScreen = fullScreenB.isSelected();
@@ -105,6 +106,17 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == fullScreenB) {
+			widthField.setEditable(!fullScreenB.isSelected());
+			heightField.setEditable(!fullScreenB.isSelected());
+			int tw = 800, th = 600;
+			if(fullScreenB.isSelected()) {
+				tw = Toolkit.getDefaultToolkit().getScreenSize().width;
+				th = Toolkit.getDefaultToolkit().getScreenSize().height;
+			} 
+			widthField.setText("" + tw);
+			heightField.setText("" + th);
+		}
 		if(e.getSource() == run) {
 			fullScreen = fullScreenB.isSelected();
 			vSync = vSyncB.isSelected();
