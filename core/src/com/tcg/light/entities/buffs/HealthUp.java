@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 public class HealthUp extends Buff{
 
 	public HealthUp(Vector2 pos) {
-		super("healthup.png", pos);
+		super("healthup.png", pos, "healthup");
 	}
 
 }

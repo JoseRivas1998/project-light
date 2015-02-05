@@ -339,6 +339,8 @@ public class Terry extends Entity {
 						shouldEnd = true;
 					}
 				}
+				b.playSound();
+				b.dispose();
 				w.getBuffs().removeValue(b, true);
 			}
 		}

@@ -98,6 +98,13 @@ public class Game extends ApplicationAdapter {
 		res.loadSound("sound", "Gameover2.ogg", "gameover");
 		res.loadSound("sound", "Cursor2.ogg", "cursor");
 		res.loadSound("sound", "Decision3.ogg", "decision");
+		res.loadSound("sound", "Heal1.ogg", "smallheal");
+		res.loadSound("sound", "Heal2.ogg", "fullheal");
+		res.loadSound("sound", "Heal3.ogg", "healthup");
+		res.loadSound("sound", "Magic1.ogg", "1up");
+		res.loadSound("sound", "Thunder3.ogg", "smallammo");
+		res.loadSound("sound", "Thunder4.ogg", "fullammo");
+		res.loadSound("sound", "Thunder6.ogg", "ammoup");
 
 		res.loadMidi("midi", "hc- Bloody Tears(NICH2).mid", "bloody tears", true);
 		res.loadMidi("midi", "darude-sandstorm.mid", "darude sandstorm", true);
