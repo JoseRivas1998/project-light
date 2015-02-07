@@ -2,6 +2,7 @@ package com.tcg.light;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
+import com.tcg.light.entities.Entity;
 
 public class MyCamera extends OrthographicCamera {
 
@@ -30,6 +31,10 @@ public class MyCamera extends OrthographicCamera {
 	
 	public boolean inView(Vector2 point) {
 		return inView(point.x, point.y);
+	}
+	
+	public boolean inView(Entity e) {
+		return inView(e.getPosition());
 	}
 
 	public void resize(Vector2 size, boolean center) {

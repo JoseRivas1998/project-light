@@ -34,6 +34,8 @@ public class TutorialState extends GameState {
 	private boolean paused;
 	
 	private Array<Particle> p;
+	
+	private final Array<EnemyBullet> eb = new Array<EnemyBullet>();
 
 	public TutorialState(GameStateManager gsm) {
 		super(gsm);
@@ -117,7 +119,7 @@ public class TutorialState extends GameState {
 		cam.update();
 		
 		if(!paused) {
-			t.upadate(w, cam, dt, true);
+			t.upadate(w, cam, dt, true, eb);
 			t.handleInput();
 			
 			t.first = false;

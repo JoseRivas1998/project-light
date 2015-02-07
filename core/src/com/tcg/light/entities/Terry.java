@@ -41,7 +41,8 @@ public class Terry extends Entity {
 	
 	public Terry() {
 		super();
-		setPosition(96, 32);
+//		setPosition(96, 32);
+		setPosition(32 * 600, 32);
 		ls = new Rectangle();
 		rs = new Rectangle();
 		ts = new Rectangle();
@@ -147,7 +148,7 @@ public class Terry extends Entity {
 		}
 	}
 	
-	public void upadate(World w, MyCamera cam, float dt, boolean tutorial) {
+	public void upadate(World w, MyCamera cam, float dt, boolean tutorial, Array<EnemyBullet> e) {
 		bounds.width = 32;
 		bounds.height = 32;
 		
@@ -175,7 +176,7 @@ public class Terry extends Entity {
 		}
 		
 		resetBounds();
-		collisions(w, tutorial);
+		collisions(w, tutorial, e);
 		resetBounds();
 		
 		updateBullets(w, cam);
@@ -284,8 +285,21 @@ public class Terry extends Entity {
 		}
 	}
 	
-	private void collisions(World w, boolean tutorial) {
+	private void collisions(World w, boolean tutorial, Array<EnemyBullet> eb) {
 		collisionGround(w, tutorial);
+		for(EnemyBullet e : eb) {
+			if(collidingWith(e)) {
+				if(!pTakingDamage) {
+					Game.res.getSound("hit").play(Game.VOLUME * .8f);
+					health -= 5;
+					damageB = true;
+				}
+				takingDamage = true; 
+				e.setShouldRemove(true);
+				break;
+			}
+			takingDamage = false;
+		}
 		for(Buff b : w.getBuffs()) {
 			if(collidingWith(b)) {
 				if(b instanceof SmallAmmo) {

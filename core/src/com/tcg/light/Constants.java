@@ -32,6 +32,16 @@ public class Constants {
 		}
 	}
 	
+	public static float distance(float x1,float y1,float x2,float y2) {
+		float a = (x2 - x1);
+		float b = (y2 - y1);
+		return (float) Math.sqrt((Math.pow(a, 2)) + (Math.pow(b, 2)));
+	}
+	
+	public static float distance(Vector2 p1, Vector2 p2) {
+		return distance(p1.x, p1.y, p2.x, p2.y);
+	}
+	
 	public static Color randomColor() {
 		return new Color(MathUtils.random(), MathUtils.random(), MathUtils.random(), 1);
 	}

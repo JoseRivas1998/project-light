@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
@@ -34,6 +35,10 @@ public class PlayState extends GameState {
 	private boolean paused;
 	
 	private Array<Particle> p;
+	
+	private Array<EnemyBullet> ebullets;
+	
+	private float stime, stimer;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -54,7 +59,8 @@ public class PlayState extends GameState {
 				gsm.setState(gsm.TITLE);
 			}
 		}
-		
+		stime = 0;
+		stimer = MathUtils.random(5);
 		t = new Terry();
 
 		stary = new Texture("backgrounds/StarlitSky.png");
@@ -70,6 +76,8 @@ public class PlayState extends GameState {
 		paused = false;
 		
 		p = new Array<Particle>();
+		
+		ebullets = new Array<EnemyBullet>();
 		
 		Game.SCORE = 0;
 		
@@ -111,9 +119,14 @@ public class PlayState extends GameState {
 		cam.update();
 		
 		if(!paused) {
-			t.upadate(w, cam, dt, false);
+			t.upadate(w, cam, dt, false, ebullets);
 			t.handleInput();
-			
+			for(EnemyBullet eb : ebullets) {
+				eb.update(cam);
+				if(eb.isShouldRemove()) {
+					ebullets.removeValue(eb, true);
+				}
+			}
 			t.first = false;
 			for(Enemy e : w.getEnemies()) {
 				e.update(w, cam, t.getBullets(), dt);
@@ -134,6 +147,27 @@ public class PlayState extends GameState {
 					}
 					w.getEnemies().removeValue(e, true);
 				}
+			}
+			
+			boolean enshoot = false;
+			Vector2 shot = new Vector2();
+			
+			for(Enemy e : w.getEnemies()) {
+				if(e instanceof Boss) {
+					enshoot = cam.inView(e.getCenter());
+					shot.set(e.getCenter());
+					break;
+				}
+			}
+			if(enshoot) {
+				stime += dt;
+				if(stime > stimer) {
+					ebullets.add(new EnemyBullet(shot, t));
+					stime = 0;
+					stimer = MathUtils.random(3);
+				}
+			} else {
+				stime = 0;
 			}
 		}
 		
@@ -172,7 +206,12 @@ public class PlayState extends GameState {
 			}
 		}
 		sr.end();
-		
+		sr.begin(ShapeType.Line);
+		sr.setProjectionMatrix(cam.combined);
+		for(EnemyBullet eb : ebullets) {
+			eb.draw(sr, sb, dt);
+		}
+		sr.end();
 		for(Enemy e : w.getEnemies()) {
 			e.drawHealth(sr, cam);
 		}
