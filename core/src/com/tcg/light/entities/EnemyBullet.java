@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.tcg.light.Constants;
 import com.tcg.light.Game;
 import com.tcg.light.MyCamera;
 
@@ -21,14 +22,11 @@ public class EnemyBullet extends Entity {
 		float speed = 20;
 		x = pos.x;
 		y = pos.y;
-		tx = t.getX();
-		ty = t.getY();
-		dx = x- tx;
-		dy = y - ty;
-		r = (float) Math.tan(dy / dx);
-		float d = r * MathUtils.radiansToDegrees;
-		if(t.getX() < pos.x) d += 180;
-		r = d * MathUtils.degreesToRadians;
+		tx = t.getCenter().x;
+		ty = t.getCenter().y;
+		dx = tx- x;
+		dy = ty - y;
+		r = MathUtils.atan2(dy, dx);
 		vel.x = MathUtils.cos(r) * speed;
 		vel.y = MathUtils.sin(r) * speed;
 		shouldRemove = false;
@@ -45,8 +43,13 @@ public class EnemyBullet extends Entity {
 
 	@Override
 	public void draw(ShapeRenderer sr, SpriteBatch sb, float dt) {
+		float x = getX();
+		float y = getY();
+		float l = Constants.distance(getX(), getY(), getRight(), getTop());
+		float tx = x + (MathUtils.cos(r) * l);
+		float ty = y + (MathUtils.sin(r) * l);
 		sr.setColor(Color.YELLOW);
-		sr.line(getX(), getCenter().y, getRight(), getCenter().y);
+		sr.line(x, y, tx, ty);
 	}
 
 	public boolean isShouldRemove() {

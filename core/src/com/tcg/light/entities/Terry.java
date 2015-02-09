@@ -41,8 +41,7 @@ public class Terry extends Entity {
 	
 	public Terry() {
 		super();
-//		setPosition(96, 32);
-		setPosition(32 * 600, 32);
+		setPosition(96, 32);
 		ls = new Rectangle();
 		rs = new Rectangle();
 		ts = new Rectangle();
