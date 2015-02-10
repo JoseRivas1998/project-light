@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="400" height="80" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
+  <image source="tiles.png" width="96" height="96"/>
+ </tileset>
+ <tileset firstgid="10" name="yellow" tilewidth="32" tileheight="32">
+  <image source="yellow.png" width="96" height="96"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="8" duration="100"/>
+    <frame tileid="7" duration="100"/>
+    <frame tileid="6" duration="100"/>
+    <frame tileid="5" duration="100"/>
+    <frame tileid="4" duration="100"/>
+    <frame tileid="3" duration="100"/>
+    <frame tileid="2" duration="100"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="0" duration="100"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="2" duration="100"/>
+    <frame tileid="3" duration="100"/>
+    <frame tileid="4" duration="100"/>
+    <frame tileid="5" duration="100"/>
+    <frame tileid="6" duration="100"/>
+    <frame tileid="7" duration="100"/>
+    <frame tileid="8" duration="100"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="19" name="purple" tilewidth="32" tileheight="32">
+  <image source="purple.png" width="96" height="32"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="100"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="2" duration="100"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer name="bg" width="400" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztwYEAAAAAw6D5U9/gBFUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfAP0DwAB
+  </data>
+ </layer>
+ <layer name="ground" width="400" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztw7EJAAAIA7Di/0d7RRdNIAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ9MKQC3Lf/mAC0=
+  </data>
+ </layer>
+ <objectgroup name="1up"/>
+ <objectgroup name="smallhealth"/>
+ <objectgroup name="smallammo"/>
+ <objectgroup name="fullammo"/>
+ <objectgroup name="fullhealth"/>
+ <objectgroup name="skeleton"/>
+ <objectgroup name="imp"/>
+ <objectgroup name="slime"/>
+ <objectgroup name="flower"/>
+ <objectgroup name="boss">
+  <object x="630.667" y="2529.33">
+   <ellipse/>
+  </object>
+ </objectgroup>
+</map>

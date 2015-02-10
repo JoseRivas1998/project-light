@@ -29,7 +29,7 @@ public class World {
 		
 		private float tileSize;
 		
-		public final int numLevels = 1;
+		public final int numLevels = 2;
 		
 		public World() throws LevelDoesNotExist {
 			bounds = new Array<Rectangle>();

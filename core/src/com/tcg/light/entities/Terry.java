@@ -330,6 +330,7 @@ public class Terry extends Entity {
 						if(tutorial) {
 							shouldEnd = true;
 						} else {
+							setPosition(96, 32);
 							w.newLevel();
 						}
 					} catch (LevelDoesNotExist e) {
@@ -344,6 +345,7 @@ public class Terry extends Entity {
 						if(tutorial) {
 							shouldEnd = true;
 						} else {
+							setPosition(96, 32);
 							w.newLevel();
 						}
 					} catch (LevelDoesNotExist e) {
