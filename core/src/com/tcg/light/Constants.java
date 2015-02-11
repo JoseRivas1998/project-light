@@ -12,6 +12,18 @@ public class Constants {
 	
 	public static int LEFT = 0;
 	public static int RIGHT = 1;
+
+	//XBox Mappings
+	public static final int A = 0;
+	public static final int B = 1;
+	public static final int X = 2;
+	public static final int Y = 3;
+	public static final int LB = 4;
+	public static final int RB = 5;
+	public static final int BACK = 6;
+	public static final int START = 7;
+	public static final int L3 = 8;
+	public static final int R3 = 9;
 	
 	public static Vector2 paraOrigin() {
 		return new Vector2((Game.SIZE.x/10) * -ZOOM, (Game.SIZE.y/10) * -ZOOM);

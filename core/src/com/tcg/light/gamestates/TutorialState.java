@@ -180,9 +180,9 @@ public class TutorialState extends GameState {
 		String todraw;
 		String s1 = "Welcome to " + Game.TITLE + "!, Use the Arrow Keys, WASD, DPad, or Left Stick to move";
 		String s2 = "Press Space, Z, or A (on controller) to jump!";
-		String s3 = "Beware of enemies! They deal damage to you if you touch them. To get rid of them, shoot them with Enter, X, or B(on Controller). Your shots are fully automatic if you have ammo, check your ammo at the bottom right.";
+		String s3 = "Beware of enemies! They deal damage to you if you touch them. To get rid of them, shoot them with Enter, X, or B(on Controller). If you would like to rapid fire, hold down C, Right Shift, or X(on Controller) at the cost of ammo, check bottom right.";
 		String s4 = "These are buffs, they either give you 10 health or ammo, or refill your health or ammo!";
-		String s5 = "At the top of these stairs, there will be a dummy boss. Defeating a boss lets you choos between upgrading health or ammo. Once you upgrade, you will progress to the next level";
+		String s5 = "At the top of these stairs, there will be a dummy boss. Defeating a boss lets you choose between upgrading health or ammo. Once you upgrade, you will progress to the next level";
 		if(t.getX() < 22 * 32) {
 			todraw = s1;
 		} else if(t.getX() < 50 * 32) {

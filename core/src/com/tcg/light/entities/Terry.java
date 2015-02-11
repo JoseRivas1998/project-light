@@ -124,24 +124,21 @@ public class Terry extends Entity {
 			}
 		}
 		if(!first) {
-			if(ammo > 0) {
-				if(MyInput.keyDown(MyInput.SHOOT)) {
-					if(bullets.size < 5) {
-						Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-						bullets.add(new Bullet(dir, getCenter()));
-						if(ammo > 0) {
-							ammo--;
-						} else {
-							ammo = 0;
-						}
+			if(MyInput.keyDown(MyInput.AUTO) && ammo > 0) {
+				if(bullets.size < 5) {
+					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+					bullets.add(new Bullet(dir, getCenter()));
+					if(ammo > 0) {
+						ammo--;
+					} else {
+						ammo = 0;
 					}
 				}
-			} else {
-				if(MyInput.keyPressed(MyInput.SHOOT)) {
-					if(bullets.size < 5) {
-						Game.res.getSound("shoot").play(Game.VOLUME * .8f);
-						bullets.add(new Bullet(dir, getCenter()));
-					}
+			}
+			if(MyInput.keyPressed(MyInput.SHOOT)) {
+				if(bullets.size < 5) {
+					Game.res.getSound("shoot").play(Game.VOLUME * .8f);
+					bullets.add(new Bullet(dir, getCenter()));
 				}
 			}
 		}
@@ -330,8 +327,8 @@ public class Terry extends Entity {
 						if(tutorial) {
 							shouldEnd = true;
 						} else {
-							setPosition(96, 32);
-							w.newLevel();
+							health = maxHealth;
+							w.newLevel(this);
 						}
 					} catch (LevelDoesNotExist e) {
 						e.printStackTrace();
@@ -345,8 +342,8 @@ public class Terry extends Entity {
 						if(tutorial) {
 							shouldEnd = true;
 						} else {
-							setPosition(96, 32);
-							w.newLevel();
+							ammo = maxAmmo;
+							w.newLevel(this);
 						}
 					} catch (LevelDoesNotExist e) {
 						e.printStackTrace();

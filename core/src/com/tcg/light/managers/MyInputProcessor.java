@@ -23,6 +23,9 @@ public class MyInputProcessor extends InputAdapter {
 		if(keycode == Keys.X || keycode == Keys.ENTER) {
 			MyInput.setKey(MyInput.SHOOT, true);
 		}
+		if(keycode == Keys.C || keycode == Keys.SHIFT_RIGHT) {
+			MyInput.setKey(MyInput.AUTO, true);
+		}
 		if(keycode == Keys.SPACE || keycode == Keys.Z) {
 			MyInput.setKey(MyInput.JUMP, true);
 		}
@@ -59,6 +62,9 @@ public class MyInputProcessor extends InputAdapter {
 		}
 		if(keycode == Keys.X || keycode == Keys.ENTER) {
 			MyInput.setKey(MyInput.SHOOT, false);
+		}
+		if(keycode == Keys.C || keycode == Keys.SHIFT_RIGHT) {
+			MyInput.setKey(MyInput.AUTO, false);
 		}
 		if(keycode == Keys.SPACE || keycode == Keys.Z) {
 			MyInput.setKey(MyInput.JUMP, false);

@@ -3,27 +3,31 @@ package com.tcg.light.managers;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.controllers.PovDirection;
+import com.tcg.light.Constants;
 
 public class MyControllerProcessor extends ControllerAdapter {
 
 	@Override
 	public boolean buttonDown(Controller controller, int buttonIndex) {
-		if(buttonIndex == 0) {
+		if(buttonIndex == Constants.A) {
 			MyInput.setKey(MyInput.JUMP, true);
 		}
-		if(buttonIndex == 1) {
+		if(buttonIndex == Constants.B) {
 			MyInput.setKey(MyInput.SHOOT, true);
 		}
-		if(buttonIndex == 4) {
+		if(buttonIndex == Constants.X) {
+			MyInput.setKey(MyInput.AUTO, true);
+		}
+		if(buttonIndex == Constants.LB) {
 			MyInput.setKey(MyInput.SCREENSHOT, true);
 		}
-		if(buttonIndex == 5) {
+		if(buttonIndex == Constants.RB) {
 			MyInput.setKey(MyInput.FULLSCREEN, true);
 		}
-		if(buttonIndex == 6) {
+		if(buttonIndex == Constants.BACK) {
 			MyInput.setKey(MyInput.BACK, true);
 		}
-		if(buttonIndex == 7) {
+		if(buttonIndex == Constants.START) {
 			MyInput.setKey(MyInput.START, true);
 		}
 		MyInput.setKey(MyInput.ANY, true);
@@ -32,22 +36,25 @@ public class MyControllerProcessor extends ControllerAdapter {
 
 	@Override
 	public boolean buttonUp(Controller controller, int buttonIndex) {
-		if(buttonIndex == 0) {
+		if(buttonIndex == Constants.A) {
 			MyInput.setKey(MyInput.JUMP, false);
 		}
-		if(buttonIndex == 1) {
+		if(buttonIndex == Constants.B) {
 			MyInput.setKey(MyInput.SHOOT, false);
 		}
-		if(buttonIndex == 4) {
+		if(buttonIndex == Constants.X) {
+			MyInput.setKey(MyInput.AUTO, false);
+		}
+		if(buttonIndex == Constants.LB) {
 			MyInput.setKey(MyInput.SCREENSHOT, false);
 		}
-		if(buttonIndex == 5) {
+		if(buttonIndex == Constants.RB) {
 			MyInput.setKey(MyInput.FULLSCREEN, false);
 		}
-		if(buttonIndex == 6) {
+		if(buttonIndex == Constants.BACK) {
 			MyInput.setKey(MyInput.BACK, false);
 		}
-		if(buttonIndex == 7) {
+		if(buttonIndex == Constants.START) {
 			MyInput.setKey(MyInput.START, false);
 		}
 		MyInput.setKey(MyInput.ANY, false);

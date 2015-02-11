@@ -3,8 +3,8 @@ package com.tcg.light.managers;
 public class MyInput {
 
 	private static boolean[] keys, pkeys;
-
-	private static final int NUM_KEYS = 11;
+	
+	private static final int NUM_KEYS = 12;
 	public static final int UP = 0;
 	public static final int DOWN = 1;
 	public static final int LEFT = 2;
@@ -15,7 +15,8 @@ public class MyInput {
 	public static final int BACK = 7;
 	public static final int SCREENSHOT = 8;
 	public static final int FULLSCREEN = 9;
-	public static final int ANY = 10;
+	public static final int AUTO = 10;
+	public static final int ANY = 11;
 	
 	static {
 		keys = new boolean[NUM_KEYS];

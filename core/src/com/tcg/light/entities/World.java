@@ -75,7 +75,9 @@ public class World {
 			}
 		}
 		
-		public void newLevel() throws LevelDoesNotExist {
+		public void newLevel(Terry t) throws LevelDoesNotExist {
+			Game.res.stopMusic();
+			t.setPosition(96, 32);
 			Game.LEVEL++;
 			if(Game.LEVEL <= numLevels) {
 				createTiles();
