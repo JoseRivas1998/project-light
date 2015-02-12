@@ -92,8 +92,9 @@ public class World {
 			createImp(ens);
 			createSlime(ens);
 			createFlower(ens);
-			createBoss(ens);
 			createBat(ens);
+			createHornet(ens);
+			createBoss(ens);
 		}
 		
 		private void createLayer(TiledMapTileLayer layer, Array<Rectangle> rect) {
@@ -220,6 +221,17 @@ public class World {
 				Vector2 v = new Vector2(e.x, e.y);
 				
 				en.add(new Bat(v));
+			}
+		}
+		
+		private void createHornet(Array<Enemy> en) {
+			MapLayer hornet;
+			hornet = tileMap.getLayers().get("hornet");
+			for(MapObject mo : hornet.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Hornet(v));
 			}
 		}
 

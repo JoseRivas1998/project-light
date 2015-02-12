@@ -338,6 +338,11 @@
    <ellipse/>
   </object>
  </objectgroup>
+ <objectgroup name="hornet">
+  <object x="481.333" y="2481.33">
+   <ellipse/>
+  </object>
+ </objectgroup>
  <objectgroup name="boss">
   <object x="19329.3" y="2494.67">
    <ellipse/>
