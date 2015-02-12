@@ -186,15 +186,6 @@
   <object x="12164" y="1088">
    <ellipse/>
   </object>
-  <object x="14539.4" y="1566.67">
-   <ellipse/>
-  </object>
-  <object x="14236.4" y="1472.73">
-   <ellipse/>
-  </object>
-  <object x="16327.3" y="2175.76">
-   <ellipse/>
-  </object>
  </objectgroup>
  <objectgroup name="imp"/>
  <objectgroup name="slime">
@@ -333,6 +324,17 @@
    <ellipse/>
   </object>
   <object x="3244" y="1960">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="bat">
+  <object x="14399" y="1441">
+   <ellipse/>
+  </object>
+  <object x="15180" y="1718">
+   <ellipse/>
+  </object>
+  <object x="16053" y="1996">
    <ellipse/>
   </object>
  </objectgroup>

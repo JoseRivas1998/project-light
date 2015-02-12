@@ -88,6 +88,7 @@
   </object>
  </objectgroup>
  <objectgroup name="flower"/>
+ <objectgroup name="bat"/>
  <objectgroup name="boss">
   <object x="3889.33" y="2208">
    <ellipse/>

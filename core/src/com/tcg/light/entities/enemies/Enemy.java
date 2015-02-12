@@ -34,6 +34,8 @@ public abstract class Enemy extends Entity {
 	private boolean damageB = false;
 	private float dX = 0;
 	
+	protected boolean move;
+	
 	public Enemy(String folder, Vector2 pos, float speed, int health) {
 		super();
 		this.spawn = pos;
@@ -111,6 +113,8 @@ public abstract class Enemy extends Entity {
 		ir = new Animation(frameDur, irframes);
 		
 		currentFrame = irframes[0];
+		
+		move = true;
 	}
 
 	public void draw(ShapeRenderer sr, SpriteBatch sb, float dt, MyCamera cam) {
@@ -125,7 +129,7 @@ public abstract class Enemy extends Entity {
 		
 		stateTime += dt;
 		
-		if(touchingG) {
+		if(touchingG || !move) {
 			if(vel.x == 0) {
 				if(dir == Constants.LEFT) {
 					currentFrame = il.getKeyFrame(stateTime, true);
@@ -188,8 +192,10 @@ public abstract class Enemy extends Entity {
 				dir = Constants.LEFT;
 			}
 			
-			bounds.x += vel.x;
-			bounds.y += vel.y;
+			if(move) {
+				bounds.x += vel.x;
+				bounds.y += vel.y;
+			}
 			
 			if(bounds.x < 0) {
 				bounds.x = 0;

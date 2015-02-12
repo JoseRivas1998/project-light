@@ -93,6 +93,7 @@ public class World {
 			createSlime(ens);
 			createFlower(ens);
 			createBoss(ens);
+			createBat(ens);
 		}
 		
 		private void createLayer(TiledMapTileLayer layer, Array<Rectangle> rect) {
@@ -211,6 +212,17 @@ public class World {
 			}
 		}
 		
+		private void createBat(Array<Enemy> en) {
+			MapLayer bat;
+			bat = tileMap.getLayers().get("bat");
+			for(MapObject mo : bat.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Bat(v));
+			}
+		}
+
 		private void createBoss(Array<Enemy> en) {
 			MapLayer boss;
 			boss = tileMap.getLayers().get("boss");
@@ -223,15 +235,6 @@ public class World {
 					en.add(new Boss(v));
 				}
 			}
-		}
-		
-		@SuppressWarnings("unused")
-		private void createObjectLayer(MapLayer layer, Array<Buff> buffs) {
-			
-			for(MapObject mo : layer.getObjects()) {
-				Ellipse e = ((EllipseMapObject) mo).getEllipse();
-			}
-			
 		}
 		
 		public void render(MyCamera cam, SpriteBatch sb) {

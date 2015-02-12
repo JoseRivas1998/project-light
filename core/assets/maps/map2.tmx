@@ -56,6 +56,7 @@
  <objectgroup name="imp"/>
  <objectgroup name="slime"/>
  <objectgroup name="flower"/>
+ <objectgroup name="bat"/>
  <objectgroup name="boss">
   <object x="630.667" y="2529.33">
    <ellipse/>
