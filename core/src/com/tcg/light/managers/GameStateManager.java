@@ -27,6 +27,8 @@ public class GameStateManager {
 	private boolean playing, pPlaying;
 	private MyCamera tCam;
 	
+	private boolean screenShot;
+	
 	public GameStateManager() {
 		sb = new SpriteBatch();
 		sr = new ShapeRenderer();
@@ -61,6 +63,7 @@ public class GameStateManager {
 	
 	public void handleInput() {
 		gamestate.handleInput();
+		screenShot = MyInput.keyPressed(MyInput.SCREENSHOT);
 	}
 	
 	public void update(float dt) {
@@ -91,6 +94,10 @@ public class GameStateManager {
 		}
 		sr.setColor(Color.WHITE);
 		sr.end();
+		if(screenShot) {
+			screenShot = false;
+			Screenshot.saveScreenshot();
+		}
 	}
 	
 	public void resize(Vector2 size) {

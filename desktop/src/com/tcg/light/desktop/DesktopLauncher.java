@@ -2,6 +2,7 @@ package com.tcg.light.desktop;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.net.URL;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -15,7 +16,7 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 
 	private JTextField widthField, heightField;
 	
-	private JButton run;
+	private JButton run, website;
 	
 	private JCheckBox fullScreenB, vSyncB;
 	
@@ -51,6 +52,7 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 		vText = new JTextField(volumeSlide.getValue() + "%");
 		vText.setEditable(false);
 		
+		
 		volumeSlide.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -64,6 +66,9 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 		run = new JButton("Run");
 		run.addActionListener(this);
 
+		website = new JButton("Visit our website!");
+		website.addActionListener(this);
+		
 		JPanel title = new JPanel();
 		title.setLayout(new FlowLayout());
 		title.add(new JLabel(Game.TITLE));
@@ -88,9 +93,14 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 	    settings.add(audioSettings, BorderLayout.SOUTH);
 	    settings.add(screenSettings, BorderLayout.NORTH);
 	    
+	    JPanel buttons = new JPanel();
+	    buttons.setLayout(new FlowLayout());
+	    buttons.add(run);
+	    buttons.add(website);
+	    
 	    getContentPane().add(title, BorderLayout.NORTH);
 	    getContentPane().add(settings, BorderLayout.CENTER);
-	    getContentPane().add(run, BorderLayout.SOUTH);
+	    getContentPane().add(buttons, BorderLayout.SOUTH);
 	    
 	    setSize(400, 150);
 	    setTitle("Tiny Country Games Launcher");
@@ -99,6 +109,18 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 	    setResizable(false);
 	    
 	    ImageIcon img = new ImageIcon(this.getClass().getResource("16.png"));
+
+		widthField.setToolTipText("Width of the game");
+		heightField.setToolTipText("Height of the game");
+		
+		run.setToolTipText("Runs the game");
+		website.setToolTipText("Opens http://tinycountrygames.com/ in default browser");
+		
+		fullScreenB.setToolTipText("Check if you want to run game in fullscreen");
+		vSyncB.setToolTipText("Check if you want to enable vSync");
+		
+		vText.setToolTipText("The volume the game will run at");
+		volumeSlide.setToolTipText("Slide to change the volume of the game");
 	    
 	    setIconImage(img.getImage());
 	    setVisible(true);
@@ -106,6 +128,13 @@ public class DesktopLauncher extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() == website) {
+			try {
+				Desktop.getDesktop().browse(new URL("http://tinycountrygames.com/").toURI());
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		}
 		if(e.getSource() == fullScreenB) {
 			widthField.setEditable(!fullScreenB.isSelected());
 			heightField.setEditable(!fullScreenB.isSelected());

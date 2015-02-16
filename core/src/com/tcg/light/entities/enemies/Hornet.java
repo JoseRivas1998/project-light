@@ -18,9 +18,9 @@ public class Hornet extends Enemy {
 		move = false;
 		
 		bounds.x += vel.x;
-		bounds.y = (16f * MathUtils.cos((bounds.x) / 6.4f)) + spawn.y;
+		bounds.y = (32f * MathUtils.cos((.4f * MathUtils.PI * bounds.x) /10f)) + spawn.y;
 		
-		if(bounds.x > spawn.x + 50 || bounds.x < spawn.x - 50) {
+		if(MathUtils.randomBoolean(.01f)) {
 			vel.x *= -1;
 		}
 	}
