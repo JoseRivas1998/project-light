@@ -94,6 +94,7 @@ public class World {
 			createFlower(ens);
 			createBat(ens);
 			createHornet(ens);
+			createPixie(ens);
 			createBoss(ens);
 		}
 		
@@ -232,6 +233,17 @@ public class World {
 				Vector2 v = new Vector2(e.x, e.y);
 				
 				en.add(new Hornet(v));
+			}
+		}
+		
+		private void createPixie(Array<Enemy> en) {
+			MapLayer pixie;
+			pixie = tileMap.getLayers().get("pixie");
+			for(MapObject mo : pixie.getObjects()) {
+				Ellipse e = ((EllipseMapObject) mo).getEllipse();
+				Vector2 v = new Vector2(e.x, e.y);
+				
+				en.add(new Pixie(v));
 			}
 		}
 

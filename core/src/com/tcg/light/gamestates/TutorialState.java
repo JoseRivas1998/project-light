@@ -67,7 +67,7 @@ public class TutorialState extends GameState {
 		pcam.zoom = Constants.ZOOM;
 		pcam.update();
 		
-		hud = new HUD(t);
+		hud = new HUD("", t);
 		
 		paused = false;
 		
@@ -212,7 +212,7 @@ public class TutorialState extends GameState {
 			e.drawHealth(sr, cam);
 		}
 		
-		hud.render(sb, sr, paused, t);
+		hud.render("", sb, sr, paused, t);
 	}
 
 	private void drawBG(SpriteBatch sb) {

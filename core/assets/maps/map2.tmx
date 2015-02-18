@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="left-up" width="400" height="80" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="left-up" width="212" height="30" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="tiles" tilewidth="32" tileheight="32">
   <image source="tiles.png" width="96" height="96"/>
  </tileset>
@@ -37,29 +37,90 @@
    </animation>
   </tile>
  </tileset>
- <layer name="bg" width="400" height="80">
+ <layer name="bg" width="212" height="30">
   <data encoding="base64" compression="zlib">
-   eJztwYEAAAAAw6D5U9/gBFUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfAP0DwAB
+   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg1wBjYAAB
   </data>
  </layer>
- <layer name="ground" width="400" height="80">
+ <layer name="ground" width="212" height="30">
   <data encoding="base64" compression="zlib">
-   eJztw7EJAAAIA7Di/0d7RRdNIAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJ9MKQC3Lf/mAC0=
+   eJzt1+0KgjAYBeARgXb/N9wfBVm+ubmJWs8DLwR+1TyHWEoAAAAAAAAAAAAAAAAAAAAAANDuuTHRuWPDM2uvjb7PfGycZu34rxmmuZuWvMARhnTfPsGVDEmfoIe8S/oUey3miPPXzHuOlv1GdG20zxkLPpfcv+aZsyH4vKVHdpf7zT3rvdalK/cpf5/L396auZLsn9Gnf5LnrzSPV8hu1KUr96lWTZ716Vxr+SvJZGl2e76L/F7fuqRPfe635/x/FeVvK5c12T2qT1tdKv1/3eNhPqbH2ljjvut5l3kDLI0Gbw==
   </data>
  </layer>
- <objectgroup name="1up"/>
+ <objectgroup name="1up">
+  <object x="4449.33" y="904">
+   <ellipse/>
+  </object>
+ </objectgroup>
  <objectgroup name="smallhealth"/>
- <objectgroup name="smallammo"/>
+ <objectgroup name="smallammo">
+  <object x="3502.67" y="657.333">
+   <ellipse/>
+  </object>
+ </objectgroup>
  <objectgroup name="fullammo"/>
- <objectgroup name="fullhealth"/>
- <objectgroup name="skeleton"/>
- <objectgroup name="imp"/>
- <objectgroup name="slime"/>
- <objectgroup name="flower"/>
- <objectgroup name="bat"/>
- <objectgroup name="hornet"/>
+ <objectgroup name="fullhealth">
+  <object x="3056" y="813.333">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="skeleton">
+  <object x="2532" y="929.333">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="imp">
+  <object x="2689.33" y="672">
+   <ellipse/>
+  </object>
+  <object x="5742.67" y="864">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="slime">
+  <object x="1060" y="928">
+   <ellipse/>
+  </object>
+  <object x="1177.33" y="928">
+   <ellipse/>
+  </object>
+  <object x="3265.33" y="929.333">
+   <ellipse/>
+  </object>
+  <object x="3506.67" y="926.667">
+   <ellipse/>
+  </object>
+  <object x="3685.33" y="930.667">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="flower">
+  <object x="1752" y="929.333">
+   <ellipse/>
+  </object>
+  <object x="1848" y="928">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="bat">
+  <object x="1441.33" y="769.333">
+   <ellipse/>
+  </object>
+  <object x="5138.67" y="789.333">
+   <ellipse/>
+  </object>
+  <object x="5440" y="881.333">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="hornet">
+  <object x="4449.33" y="750.667">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="pixie"/>
  <objectgroup name="boss">
-  <object x="630.667" y="2529.33">
+  <object x="6338" y="870.667">
    <ellipse/>
   </object>
  </objectgroup>

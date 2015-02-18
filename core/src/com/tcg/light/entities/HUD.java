@@ -24,18 +24,20 @@ public class HUD {
 	
 	private float livesX, livesY, livesH;
 	
+	private float levelX, levelY;
+	
 	private Texture face, txtbg;
 	
 	private String health, ammo, score, highScore, lives;
 	
-	public HUD(Terry t) {
+	public HUD(String level, Terry t) {
 		cam = new MyCamera(Game.SIZE, true);
 		face = new Texture("hud/My Face.png");
 		txtbg = new Texture("textbg.png");
-		setValues(t);
+		setValues(level, t);
 	}
 	
-	private void setValues(Terry t) {
+	private void setValues(String level, Terry t) {
 		float health = (float) t.getHealth();
 		float mHealth = (float) t.getMaxHealth();
 		float hRatio = health / mHealth;
@@ -84,12 +86,13 @@ public class HUD {
 		livesX = faceX + faceW + 10;
 		livesY = faceY + livesH;
 		
-		
+		levelX = Game.res.centerX("main", level);
+		levelY = cam.getTop() - (Game.res.getHeight("main", level) * .5f);
 	}
 	
-	public void render(SpriteBatch sb, ShapeRenderer sr, boolean paused, Terry t) {
+	public void render(String level, SpriteBatch sb, ShapeRenderer sr, boolean paused, Terry t) {
 		
-		setValues(t);
+		setValues(level, t);
 
 		sr.begin(ShapeType.Filled);
 		sr.setProjectionMatrix(cam.combined);
@@ -111,6 +114,7 @@ public class HUD {
 		Game.res.getFont("main").draw(sb, score, scoreX, scoreY);
 		Game.res.getFont("main").draw(sb, highScore, highScoreX, highScoreY);
 		Game.res.getFont("main").draw(sb, lives, livesX, livesY);
+		Game.res.getFont("main").draw(sb, level, levelX, levelY);
 		sb.draw(face, faceX, faceY, faceW, faceH);
 		if(paused) {
 			sb.end();

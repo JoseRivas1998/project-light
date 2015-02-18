@@ -39,6 +39,8 @@ public class PlayState extends GameState {
 	private Array<EnemyBullet> ebullets;
 	
 	private float stime, stimer;
+	
+	private String[] names;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -71,13 +73,21 @@ public class PlayState extends GameState {
 		pcam.zoom = Constants.ZOOM;
 		pcam.update();
 		
-		hud = new HUD(t);
+		names = new String[9];
+		
+		names[0] = "Tutorial";
+		names[1] = "New Beginnings";
+		names[2] = "Rip Off";
+		
+		hud = new HUD(names[Game.LEVEL], t);
 		
 		paused = false;
 		
 		p = new Array<Particle>();
 		
 		ebullets = new Array<EnemyBullet>();
+		
+		
 		
 		Game.SCORE = 0;
 		
@@ -133,6 +143,9 @@ public class PlayState extends GameState {
 				if(e.getHealth() <= 0) {
 					Game.SCORE += e.worth();
 					createParticles(e.paricles(), e.getCenter());
+					if(e instanceof Pixie) {
+						t.setHealth(t.getMaxHealth());
+					}
 					if(e instanceof Boss) {
 						HealthUp h;
 						AmmoUp a;
@@ -216,7 +229,7 @@ public class PlayState extends GameState {
 			e.drawHealth(sr, cam);
 		}
 		
-		hud.render(sb, sr, paused, t);
+		hud.render(names[Game.LEVEL],sb, sr, paused, t);
 	}
 
 	private void drawBG(SpriteBatch sb) {
