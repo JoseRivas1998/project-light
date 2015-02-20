@@ -220,6 +220,13 @@ public abstract class Enemy extends Entity {
 		}
 		
 		if(getCenter().y <= 1) {
+			dir = Constants.randomDirection();
+			float speed = vel.x;
+			if(dir == Constants.LEFT) {
+				setVel(new Vector2(-speed, 0));
+			} else {
+				setVel(new Vector2(speed, 0));
+			}
 			setPosition(spawn);
 		}
 	}
@@ -296,6 +303,10 @@ public abstract class Enemy extends Entity {
 	
 	public int worth() {
 		return (maxHealth / 5) * 100;
+	}
+	
+	public int expWorth() {
+		return maxHealth / 5;
 	}
 	
 	public int paricles() {

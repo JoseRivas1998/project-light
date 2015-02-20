@@ -142,6 +142,7 @@ public class PlayState extends GameState {
 				e.update(w, cam, t.getBullets(), dt);
 				if(e.getHealth() <= 0) {
 					Game.SCORE += e.worth();
+					t.incrementExp(e.expWorth());
 					createParticles(e.paricles(), e.getCenter());
 					if(e instanceof Pixie) {
 						t.setHealth(t.getMaxHealth());

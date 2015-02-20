@@ -12,6 +12,8 @@ public class Save implements Serializable {
 	private int maxHealth;
 	private int maxAmmo;
 	
+	private int exp, toNext, tier;
+	
 	private int lives;
 	
 	public int getHighScore() {
@@ -43,6 +45,24 @@ public class Save implements Serializable {
 	}
 	public void setLives(int lives) {
 		this.lives = lives;
+	}
+	public int getExp() {
+		return exp;
+	}
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
+	public int getToNext() {
+		return toNext;
+	}
+	public void setToNext(int toNext) {
+		this.toNext = toNext;
+	}
+	public int getTier() {
+		return tier;
+	}
+	public void setTier(int tier) {
+		this.tier = tier;
 	}
 	
 }

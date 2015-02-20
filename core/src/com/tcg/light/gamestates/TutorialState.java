@@ -44,6 +44,16 @@ public class TutorialState extends GameState {
 	@Override
 	protected void init() {
 		
+		Game.SCORE = 0;
+		Game.FIRST = false;
+		Game.HIGHSCORE = 0;
+		Game.MAXHEALTH = 100;
+		Game.MAXAMMO = 30;
+		Game.LIVES = 5;
+		Game.EXP = 0;
+		Game.TONEXT = 250;
+		Game.TIER = 1;
+		
 		try {
 			w = new World();
 		} catch (LevelDoesNotExist e) {
@@ -72,13 +82,6 @@ public class TutorialState extends GameState {
 		paused = false;
 		
 		p = new Array<Particle>();
-		
-		Game.SCORE = 0;
-		Game.FIRST = false;
-		Game.HIGHSCORE = 0;
-		Game.MAXHEALTH = 100;
-		Game.MAXAMMO = 30;
-		Game.LIVES = 5;
 		t.setAmmo(0);
 		
 	}
@@ -162,6 +165,9 @@ public class TutorialState extends GameState {
 			Game.MAXHEALTH = 100;
 			Game.MAXAMMO = 30;
 			Game.LIVES = 5;
+			Game.EXP = 0;
+			Game.TONEXT = 250;
+			Game.TIER = 1;
 			gsm.setState(gsm.PLAY);
 		}
 	}

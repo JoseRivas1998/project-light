@@ -39,6 +39,8 @@ public class Terry extends Entity {
 	
 	public boolean shouldEnd;
 	
+	private int exp, tier, toNext;
+	
 	public Terry() {
 		super();
 		setPosition(96, 32);
@@ -55,6 +57,9 @@ public class Terry extends Entity {
 		maxAmmo = Game.MAXAMMO;
 		health = maxHealth;
 		ammo = maxAmmo;
+		exp = Game.EXP;
+		tier = Game.TIER;
+		toNext = Game.TONEXT;
 		takingDamage = false;
 		pTakingDamage = false;
 		lives = Game.LIVES;
@@ -184,6 +189,9 @@ public class Terry extends Entity {
 		Game.MAXAMMO = maxAmmo;
 		Game.MAXHEALTH = maxHealth;
 		Game.LIVES = lives;
+		Game.EXP = exp;
+		Game.TONEXT = toNext;
+		Game.TIER = tier;
 		
 		setDamage(dt);
 		
@@ -332,6 +340,7 @@ public class Terry extends Entity {
 						}
 					} catch (LevelDoesNotExist e) {
 						e.printStackTrace();
+						Game.LEVEL = 1;
 						maxHealth -= 10;
 						shouldEnd = true;
 					}
@@ -347,6 +356,7 @@ public class Terry extends Entity {
 						}
 					} catch (LevelDoesNotExist e) {
 						e.printStackTrace();
+						Game.LEVEL = 1;
 						maxAmmo -= 5;
 						shouldEnd = true;
 					}
@@ -477,6 +487,44 @@ public class Terry extends Entity {
 
 	public void setBullets(Array<Bullet> bullets) {
 		this.bullets = bullets;
+	}
+	
+	public void incrementExp(int amount) {
+		this.exp += amount;
+		if(this.exp >= this.toNext) {
+			this.exp -= this.toNext;
+			this.tier++;
+			this.toNext += (this.toNext * .5f);
+			this.maxAmmo += 5;
+			this.maxHealth += 5;
+			this.health += 5;
+			this.ammo += 5;
+			Game.SCORE += this.tier * 100;
+		}
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
+	}
+
+	public int getTier() {
+		return tier;
+	}
+
+	public void setTier(int tier) {
+		this.tier = tier;
+	}
+
+	public int getToNext() {
+		return toNext;
+	}
+
+	public void setToNext(int toNext) {
+		this.toNext = toNext;
 	}
 
 }

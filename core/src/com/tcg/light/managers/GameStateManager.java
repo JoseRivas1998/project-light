@@ -1,5 +1,6 @@
 package com.tcg.light.managers;
 
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -17,11 +18,12 @@ public class GameStateManager {
 	
 	private GameState gamestate;
 
-	public final int SPLASH = 0;
-	public final int TITLE = 1;
-	public final int TUTORIAL = 2;
-	public final int PLAY = 3;
-	public final int GAMEOVER = 4;
+	public final int CONTROLLER = 0;
+	public final int SPLASH = 1;
+	public final int TITLE = 2;
+	public final int TUTORIAL = 3;
+	public final int PLAY = 4;
+	public final int GAMEOVER = 5;
 	
 	private float tTime, tTimer;
 	private boolean playing, pPlaying;
@@ -32,7 +34,11 @@ public class GameStateManager {
 	public GameStateManager() {
 		sb = new SpriteBatch();
 		sr = new ShapeRenderer();
-		setState(SPLASH);
+		if(Controllers.getControllers().size > 0) {
+			setState(SPLASH);
+		} else {
+			setState(CONTROLLER);
+		}
 		tTimer = MathUtils.random(15);
 		tTime = 0;
 		playing = false;
@@ -44,6 +50,9 @@ public class GameStateManager {
 		Game.res.stopMidi();
 		Game.res.stopMusic();
 		if(gamestate != null) gamestate.dispose();
+		if(state == CONTROLLER) {
+			gamestate = new ControlState(this);
+		}
 		if(state == SPLASH) {
 			gamestate = new SplashState(this);
 		}

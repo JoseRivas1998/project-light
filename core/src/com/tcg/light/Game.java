@@ -23,7 +23,7 @@ public class Game extends ApplicationAdapter {
 	
 	public GameStateManager gsm;
 	
-	public static int SCORE, HIGHSCORE, LEVEL, MAXHEALTH, MAXAMMO, LIVES;
+	public static int SCORE, HIGHSCORE, LEVEL, MAXHEALTH, MAXAMMO, LIVES, EXP, TIER, TONEXT;
 	
 	public static float VOLUME;
 	
@@ -73,6 +73,9 @@ public class Game extends ApplicationAdapter {
 			s.setMaxHealth(100);
 			s.setMaxAmmo(30);
 			s.setLives(5);
+			s.setExp(0);
+			s.setTier(1);
+			s.setToNext(250);
 			FIRST = true;
 		}
 		
@@ -81,6 +84,10 @@ public class Game extends ApplicationAdapter {
 		Game.MAXAMMO = s.getMaxAmmo();
 		Game.MAXHEALTH = s.getMaxHealth();
 		Game.LIVES = s.getLives();
+		Game.TONEXT = s.getToNext();
+		Game.TIER = s.getTier();
+		Game.EXP = s.getExp();
+		
 		
 		ftime = 0;
 		frames = 0;
@@ -198,6 +205,9 @@ public class Game extends ApplicationAdapter {
 		s.setMaxAmmo(Game.MAXAMMO);
 		s.setMaxHealth(Game.MAXHEALTH);
 		s.setLives(Game.LIVES);
+		s.setExp(Game.EXP);
+		s.setTier(Game.TIER);
+		s.setToNext(Game.TONEXT);
 		try {
 		 	FileOutputStream fileOut = new FileOutputStream("save.dat");
 		 	ObjectOutputStream out = new ObjectOutputStream(fileOut);

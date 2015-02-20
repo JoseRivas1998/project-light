@@ -20,6 +20,8 @@ public class HUD {
 	
 	private float scoreX, scoreY, scoreW, highScoreX, highScoreY, highScoreW;
 	
+	private float expX, expY, expW, expBarW, expH, lvSX, lvSY, lvSH, expSX, expSY, lvSW, expSW;
+	
 	private float faceX, faceY, faceW, faceH;
 	
 	private float livesX, livesY, livesH;
@@ -28,7 +30,7 @@ public class HUD {
 	
 	private Texture face, txtbg;
 	
-	private String health, ammo, score, highScore, lives;
+	private String health, ammo, score, highScore, lives, lvl, exp;
 	
 	public HUD(String level, Terry t) {
 		cam = new MyCamera(Game.SIZE, true);
@@ -48,6 +50,13 @@ public class HUD {
 		float aRatio = ammo / mAmmo;
 		this.ammo = t.getAmmo() + "/" + t.getMaxAmmo(); 
 		
+		this.lvl = "Level: " + t.getTier();
+		
+		float exp = (float) t.getExp();
+		float toNext = (float) t.getToNext();
+		float eRatio = exp / toNext;
+		this.exp = t.getExp() + "/" + t.getToNext();
+		
 		heathW = 100;
 		helathH = 25;
 		healthX = cam.getLeft() + 10;
@@ -65,6 +74,20 @@ public class HUD {
 		ammoStringW = Game.res.getWidth("main", this.ammo);
 		ammoStringX = (ammoX + (ammoW * .5f)) - (ammoStringW * .5f);
 		ammoStringY = ammoY - 10;
+		
+		expW = 100;
+		expH = 25;
+		expX = (cam.position.x * .5f) - (expW * .5f);
+		expY = cam.getBottom() + (expH * 1.25f);
+		expBarW = eRatio * expW;
+		
+		lvSH = Game.res.getHeight("main", this.lvl);
+		lvSW = Game.res.getWidth("main", this.lvl);
+		lvSX = (cam.position.x * .5f) - (lvSW * .5f);
+		lvSY = expY + expH + lvSH + 5;
+		expSW = Game.res.getWidth("main", this.exp);
+		expSX =(cam.position.x * .5f) - (expSW * .5f);;
+		expSY = expY - 10;
 		
 		score = "Score: " + Game.getScore(Game.SCORE);
 		highScore = "High Score: " + Game.getScore(Game.HIGHSCORE);
@@ -98,6 +121,7 @@ public class HUD {
 		sr.setProjectionMatrix(cam.combined);
 		sr.rect(ammoX, ammoY, ammoBarW, ammoH, new Color(1, 1, 0, 1), new Color(1, 1, .5f, 1), new Color(1, 1, .5f, 1), new Color(1, 1, 0, 1));
 		sr.rect(healthX, healthY, healthBarW, helathH, new Color(1, 0, 0, 1), new Color(1, .5f, .5f, 1), new Color(1, .5f, .5f, 1), new Color(1, 0, 0, 1));
+		sr.rect(expX, expY, expBarW, expH, new Color(0, 0, 1, 1), new Color(.5f, .5f, 1, 1), new Color(.5f, .5f, 1, 1), new Color(0, 0, 1, 1));
 		sr.end();
 		
 		sr.begin(ShapeType.Line);
@@ -105,6 +129,7 @@ public class HUD {
 		sr.setColor(Color.WHITE);
 		sr.rect(ammoX, ammoY, ammoW, ammoH);
 		sr.rect(healthX, healthY, heathW, helathH);
+		sr.rect(expX, expY, expW, expH);
 		sr.end();
 		
 		sb.begin();
@@ -115,6 +140,8 @@ public class HUD {
 		Game.res.getFont("main").draw(sb, highScore, highScoreX, highScoreY);
 		Game.res.getFont("main").draw(sb, lives, livesX, livesY);
 		Game.res.getFont("main").draw(sb, level, levelX, levelY);
+		Game.res.getFont("main").draw(sb, exp, expSX, expSY);
+		Game.res.getFont("main").draw(sb, lvl, lvSX, lvSY);
 		sb.draw(face, faceX, faceY, faceW, faceH);
 		if(paused) {
 			sb.end();
