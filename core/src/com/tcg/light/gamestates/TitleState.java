@@ -27,6 +27,9 @@ public class TitleState extends GameState {
 	private float quitTime, quitTimer;
 	private boolean quit;
 	
+	private String hs;
+	private float hsx, hsy;
+	
 	public TitleState(GameStateManager gsm) {
 		super(gsm);
 	}

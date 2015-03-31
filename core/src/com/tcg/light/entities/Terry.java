@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.tcg.light.Constants;
@@ -419,7 +420,7 @@ public class Terry extends Entity {
 		}
 		
 		sb.draw(currentFrame, getCenter().x - (currentFrame.getRegionWidth() * .5f), getCenter().y - (currentFrame.getRegionHeight() * .5f));
-		if(damageB) {
+		if(damageB && MathUtils.randomBoolean()) {
 			sb.draw(damage, getX(), getY(), getWidth(), getHeight());
 		}
 	}

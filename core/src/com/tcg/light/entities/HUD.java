@@ -76,7 +76,7 @@ public class HUD {
 		ammoStringY = ammoY - 10;
 		
 		expW = 100;
-		expH = 25;
+		expH = 20;
 		expX = (cam.position.x * .5f) - (expW * .5f);
 		expY = cam.getBottom() + (expH * 1.25f);
 		expBarW = eRatio * expW;
@@ -87,7 +87,7 @@ public class HUD {
 		lvSY = expY + expH + lvSH + 5;
 		expSW = Game.res.getWidth("main", this.exp);
 		expSX =(cam.position.x * .5f) - (expSW * .5f);;
-		expSY = expY - 10;
+		expSY = expY - 3;
 		
 		score = "Score: " + Game.getScore(Game.SCORE);
 		highScore = "High Score: " + Game.getScore(Game.HIGHSCORE);
